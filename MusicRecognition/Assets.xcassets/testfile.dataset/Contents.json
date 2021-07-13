@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "testfile.aif",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

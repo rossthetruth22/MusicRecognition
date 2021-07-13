@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		852C035726956A580098E524 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852C035626956A580098E524 /* NetworkClient.swift */; };
+		852C0371269572DE0098E524 /* AudD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852C0370269572DE0098E524 /* AudD.swift */; };
+		852C0375269AB9680098E524 /* CodableStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852C0374269AB9680098E524 /* CodableStructs.swift */; };
+		852C0378269ABF660098E524 /* ACRCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852C0377269ABF660098E524 /* ACRCloud.swift */; };
+		852C037B269B5FCE0098E524 /* testfile.aif in Resources */ = {isa = PBXBuildFile; fileRef = 852C037A269B5FCE0098E524 /* testfile.aif */; };
+		852C037E269B6D2F0098E524 /* testfile.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 852C037D269B6D2F0098E524 /* testfile.mp3 */; };
+		852C0381269BF92A0098E524 /* MultiPartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852C0380269BF92A0098E524 /* MultiPartRequest.swift */; };
 		855CE7412671B6F3007F3A21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855CE7402671B6F3007F3A21 /* AppDelegate.swift */; };
 		855CE7432671B6F3007F3A21 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855CE7422671B6F3007F3A21 /* SceneDelegate.swift */; };
 		855CE7452671B6F3007F3A21 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855CE7442671B6F3007F3A21 /* ViewController.swift */; };
@@ -17,6 +24,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		852C035626956A580098E524 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		852C0370269572DE0098E524 /* AudD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudD.swift; sourceTree = "<group>"; };
+		852C0374269AB9680098E524 /* CodableStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableStructs.swift; sourceTree = "<group>"; };
+		852C0377269ABF660098E524 /* ACRCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACRCloud.swift; sourceTree = "<group>"; };
+		852C037A269B5FCE0098E524 /* testfile.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = testfile.aif; sourceTree = "<group>"; };
+		852C037D269B6D2F0098E524 /* testfile.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = testfile.mp3; sourceTree = "<group>"; };
+		852C0380269BF92A0098E524 /* MultiPartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPartRequest.swift; sourceTree = "<group>"; };
 		855CE73D2671B6F3007F3A21 /* MusicRecognition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicRecognition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		855CE7402671B6F3007F3A21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		855CE7422671B6F3007F3A21 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +53,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		852C0354269569E30098E524 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				852C035626956A580098E524 /* NetworkClient.swift */,
+				852C0370269572DE0098E524 /* AudD.swift */,
+				852C0377269ABF660098E524 /* ACRCloud.swift */,
+				852C0380269BF92A0098E524 /* MultiPartRequest.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		852C0373269AB90B0098E524 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				852C0374269AB9680098E524 /* CodableStructs.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		855CE7342671B6F3007F3A21 = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +91,8 @@
 		855CE73F2671B6F3007F3A21 /* MusicRecognition */ = {
 			isa = PBXGroup;
 			children = (
+				852C0373269AB90B0098E524 /* Model */,
+				852C0354269569E30098E524 /* Network */,
 				855CE7402671B6F3007F3A21 /* AppDelegate.swift */,
 				855CE7422671B6F3007F3A21 /* SceneDelegate.swift */,
 				855CE7442671B6F3007F3A21 /* ViewController.swift */,
@@ -66,6 +101,8 @@
 				855CE74E2671B6F6007F3A21 /* LaunchScreen.storyboard */,
 				855CE7512671B6F6007F3A21 /* Info.plist */,
 				855CE7492671B6F3007F3A21 /* MusicRecognition.xcdatamodeld */,
+				852C037A269B5FCE0098E524 /* testfile.aif */,
+				852C037D269B6D2F0098E524 /* testfile.mp3 */,
 			);
 			path = MusicRecognition;
 			sourceTree = "<group>";
@@ -127,8 +164,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				852C037E269B6D2F0098E524 /* testfile.mp3 in Resources */,
 				855CE7502671B6F6007F3A21 /* LaunchScreen.storyboard in Resources */,
 				855CE74D2671B6F6007F3A21 /* Assets.xcassets in Resources */,
+				852C037B269B5FCE0098E524 /* testfile.aif in Resources */,
 				855CE7482671B6F3007F3A21 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,9 +179,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				852C0375269AB9680098E524 /* CodableStructs.swift in Sources */,
+				852C035726956A580098E524 /* NetworkClient.swift in Sources */,
+				852C0381269BF92A0098E524 /* MultiPartRequest.swift in Sources */,
 				855CE7452671B6F3007F3A21 /* ViewController.swift in Sources */,
 				855CE7412671B6F3007F3A21 /* AppDelegate.swift in Sources */,
+				852C0371269572DE0098E524 /* AudD.swift in Sources */,
 				855CE7432671B6F3007F3A21 /* SceneDelegate.swift in Sources */,
+				852C0378269ABF660098E524 /* ACRCloud.swift in Sources */,
 				855CE74B2671B6F3007F3A21 /* MusicRecognition.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

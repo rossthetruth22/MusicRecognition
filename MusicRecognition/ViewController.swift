@@ -14,6 +14,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func test(_ sender: Any) {
+        
+        AudD.recognize()
+    }
+    
 }
 
