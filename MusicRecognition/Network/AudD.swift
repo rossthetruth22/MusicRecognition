@@ -20,13 +20,11 @@ class AudD{
         let apiToken = "e23d42f738edfc001032bef10c7f0104"
         
         let testURL = Bundle.main.url(forResource: "testfile", withExtension: "mp3")
-        let testPath = Bundle.main.path(forResource: "testfile", ofType: "mp3")
 
         var songFile:Data! = nil
         
         do{
             songFile = try Data(contentsOf: testURL!)
-            //songFile = try NSData(contentsOfFile: testPath!) as Data
         }catch{
             print("unable to get test song file")
         }
@@ -62,13 +60,5 @@ class AudD{
             
             print(result)
         }
-//        client.methodForPOST(url, songFile, formData: callData) { (data, error) in
-//            guard (error == nil) else {print(error)
-//                return}
-//
-//            guard let data = data else {return}
-//
-//           print(data)
-//        }
     }
 }

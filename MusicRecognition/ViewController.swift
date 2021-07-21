@@ -16,7 +16,8 @@ class ViewController: UIViewController {
 
     @IBAction func test(_ sender: Any) {
         
-        AudD.recognize()
+        //AudD.recognize()
+        ACRCloud.identify()
     }
     
 }
