@@ -13,7 +13,7 @@ class ACRCloud{
     
     private let apiToken = "e23d42f738edfc001032bef10c7f0104"
     
-    static func identify(){
+    static func identify(_ file: URL){
         
         let client = NetworkClient()
         let url = "https://identify-us-west-2.acrcloud.com/v1/identify"
@@ -58,7 +58,8 @@ class ACRCloud{
         let sampleBytes = songFile.count
         let request = MultiPartRequest(url: URL(string: url)!)
         
-        request.addFileToBody(fieldName: "sample", data: songFile, fileType: "mp3", mimeType: "audio/mpeg")
+        //request.addFileToBody(fieldName: "sample", data: songFile, fileType: "mp3", mimeType: "audio/mpeg")
+        request.addFileToBody(fieldName: "sample", data: songFile, fileType: "m4a", mimeType: "audio/m4a")
         request.addStringToBody(fieldName: "access_key", value: accessKey)
         request.addStringToBody(fieldName: "sample_bytes", value: "\(sampleBytes)")
         request.addStringToBody(fieldName: "timestamp", value: timestamp)

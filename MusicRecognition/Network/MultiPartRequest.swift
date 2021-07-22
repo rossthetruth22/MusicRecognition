@@ -39,7 +39,8 @@ struct MultiPartRequest{
         let mutableData = NSMutableData()
         
         mutableData.appendString("--\(boundary)\r\n")
-        mutableData.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"sean.mp3\"\r\n")
+        //mutableData.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"sean.mp3\"\r\n")
+        mutableData.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"sean.\(fileType)\"\r\n")
         mutableData.appendString("Content-Type: \(mimeType)\r\n")
         mutableData.appendString("\r\n")
         mutableData.append(data)
