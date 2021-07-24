@@ -44,12 +44,14 @@ class ACRCloud{
         let base64Encoded = encoded.base64EncodedString()
         
         
-        let testURL = Bundle.main.url(forResource: "testfile", withExtension: "mp3")
+        //let testURL = Bundle.main.url(forResource: "testfile", withExtension: "mp3")
         
         var songFile:Data! = nil
         
         do{
-            songFile = try Data(contentsOf: testURL!)
+            //songFile = try Data(contentsOf: testURL!)
+            songFile = try Data(contentsOf: file)
+
             //print("got the song url")
         }catch{
             print("unable to get test song file")

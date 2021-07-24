@@ -82,7 +82,7 @@ class ViewController: UIViewController {
 //            print(contents)
 //        }
         
-        ACRCloud.identify(fileToRecord)
+        //ACRCloud.identify(fileToRecord)
         
     }
     
@@ -92,7 +92,11 @@ extension ViewController: AVAudioRecorderDelegate{
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         print("delegate")
+        
         let theLink = recorder.url
+        
+        ACRCloud.identify(theLink)
+        
         if flag{
             audioPlayer = try? AVAudioPlayer(contentsOf: theLink)
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
@@ -101,5 +105,15 @@ extension ViewController: AVAudioRecorderDelegate{
                 self.audioPlayer.play()
             }
         }
+        
+        do{
+            try FileManager.default.removeItem(at: theLink)
+            print("deleted file successfully")
+        }catch{
+            print(error.localizedDescription)
+        }
+        
+        
+        
     }
 }
