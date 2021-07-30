@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Playlist" representedClassName="Playlist" syncable="YES" codeGenerationType="category">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Playlist" inverseName="songs" inverseEntity="Playlist"/>
+    </entity>
+    <entity name="Song" representedClassName="Song" syncable="YES" codeGenerationType="category">
+        <attribute name="album" optional="YES" attributeType="String"/>
+        <attribute name="artist" optional="YES" attributeType="String"/>
+        <attribute name="isrc" optional="YES" attributeType="String"/>
+        <attribute name="label" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="playlist" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="playlist" inverseEntity="Song"/>
+    </entity>
+    <elements>
+        <element name="Playlist" positionX="-63" positionY="-18" width="128" height="59"/>
+        <element name="Song" positionX="-54" positionY="-9" width="128" height="134"/>
+    </elements>
 </model>

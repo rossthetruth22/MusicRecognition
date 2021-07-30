@@ -12,19 +12,20 @@ class AudD{
     
     private let apiToken = "e23d42f738edfc001032bef10c7f0104"
     
-    static func recognize(){
+    static func recognize(file:URL, completionHandler: @escaping (_ success: Bool) -> Void){
         
         let client = NetworkClient()
         let url = "https://api.audd.io/"
         let parameters = "lyrics,apple_music,spotify"
         let apiToken = "e23d42f738edfc001032bef10c7f0104"
         
-        let testURL = Bundle.main.url(forResource: "testfile", withExtension: "mp3")
+        //let testURL = Bundle.main.url(forResource: "testfile", withExtension: "mp3")
 
         var songFile:Data! = nil
         
         do{
-            songFile = try Data(contentsOf: testURL!)
+            //songFile = try Data(contentsOf: testURL!)
+            songFile = try Data(contentsOf: file)
         }catch{
             print("unable to get test song file")
         }
@@ -33,11 +34,12 @@ class AudD{
         let request = MultiPartRequest(url: URL(string: url)!)
         request.addStringToBody(fieldName: "api_token", value: apiToken)
         request.addStringToBody(fieldName: "return", value: parameters)
-        request.addFileToBody(fieldName: "file", data: songFile, fileType: "mp3", mimeType: "audio/mpeg")
+        //request.addFileToBody(fieldName: "file", data: songFile, fileType: "mp3", mimeType: "audio/mpeg")
+        request.addFileToBody(fieldName: "file", data: songFile, fileType: "m4a", mimeType: "audio/m4a")
         
         
         
-        let audDPost = AudDPost(api_token: apiToken, file: songFile, returnVar: parameters)
+        //let audDPost = AudDPost(api_token: apiToken, file: songFile, returnVar: parameters)
  
 //        var callData:Data!
 //
@@ -57,7 +59,7 @@ class AudD{
             }
             
             guard let result = result else {return}
-            
+            completionHandler(true)
             print(result)
         }
     }

@@ -1,29 +1,27 @@
 //
-//  ViewController.swift
+//  IdentifyViewController.swift
 //  MusicRecognition
 //
-//  Created by Royce Reynolds on 6/9/21.
+//  Created by Royce Reynolds on 7/27/21.
 //
 
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class IdentifyViewController: UIViewController {
     
     var audioSession: AVAudioSession! = nil
     var recordSession: AVAudioRecorder! = nil
-    var audioPlayer: AVAudioPlayer! = nil
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         audioSession = AVAudioSession.sharedInstance()
 
         do{
             try audioSession.setCategory(.playAndRecord, mode: .default, options: [])
             try audioSession.setActive(true, options: [])
-            //print(audioSession.)
             audioSession.requestRecordPermission { (answer) in
                 if answer{
                     print("Permission true")
@@ -34,13 +32,22 @@ class ViewController: UIViewController {
         }catch{
             print("caught")
         }
-    }
 
-    @IBAction func test(_ sender: Any) {
-        
-        //AudD.recognize()
-        //ACRCloud.identify()
-        
+    }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+    
+    @IBAction func handleVinylTap(_ sender: UITapGestureRecognizer) {
+        print("vinyl tapped")
         let fileManager = FileManager.default
         let tempDir = fileManager.temporaryDirectory
         
@@ -84,18 +91,29 @@ class ViewController: UIViewController {
         
         //ACRCloud.identify(fileToRecord)
         
+        
     }
     
+
 }
 
-extension ViewController: AVAudioRecorderDelegate{
+extension IdentifyViewController: AVAudioRecorderDelegate{
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        print("delegate")
         
         let theLink = recorder.url
         
-        //AudD.recognize(file: theLink)
+        AudD.recognize(file: theLink) { success in
+            if success{
+                
+                DispatchQueue.main.async {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let songController = storyboard.instantiateViewController(identifier: "SongViewController")
+                    self.present(songController, animated: true, completion: nil)
+                }
+                
+            }
+        }
         //ACRCloud.identify(theLink)
         
 //        if flag{
@@ -113,8 +131,6 @@ extension ViewController: AVAudioRecorderDelegate{
         }catch{
             print(error.localizedDescription)
         }
-        
-        
-        
     }
+    
 }
