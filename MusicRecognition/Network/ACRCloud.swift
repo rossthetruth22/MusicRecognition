@@ -75,16 +75,18 @@ class ACRCloud{
 //
 //        let audDPost = AudDPost(api_token: apiToken, file: songFile, returnVar: parameters)
         
+        //commenting for compile. change method signature
+//        client.methodForPOST(url, request: request.loadRequest()) { (result, error) in
+//            guard (error == nil) else {print(error)
+//                return
+//            }
+//            
+//            guard let result = result else {return}
+//            
+//            print(result)
+//        }
         
-        client.methodForPOST(url, request: request.loadRequest()) { (result, error) in
-            guard (error == nil) else {print(error)
-                return
-            }
-            
-            guard let result = result else {return}
-            
-            print(result)
-        }
+        //old code
 //        client.methodForPOST(url, songFile, formData: callData) { (data, error) in
 //            guard (error == nil) else {print(error)
 //                return}
@@ -94,10 +96,6 @@ class ACRCloud{
 //           print(data)
 //        }
     }
-    
-//    private static func createSignature(){
-//        HMAC.authenticationCode(for: , using: <#T##SymmetricKey#>)
-//    }
     
     private static func getTimestamp() -> String{
         return String(Date().timeIntervalSince1970)

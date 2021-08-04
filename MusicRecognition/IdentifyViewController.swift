@@ -103,12 +103,13 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
         
         let theLink = recorder.url
         
-        AudD.recognize(file: theLink) { success in
+        AudD.recognize(file: theLink) { success, result in
             if success{
                 
                 DispatchQueue.main.async {
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let songController = storyboard.instantiateViewController(identifier: "SongViewController")
+                    let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
+                    songController.song = result
                     self.present(songController, animated: true, completion: nil)
                 }
                 

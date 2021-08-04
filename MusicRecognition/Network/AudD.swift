@@ -12,7 +12,7 @@ class AudD{
     
     private let apiToken = "e23d42f738edfc001032bef10c7f0104"
     
-    static func recognize(file:URL, completionHandler: @escaping (_ success: Bool) -> Void){
+    static func recognize(file:URL, completionHandler: @escaping (_ success: Bool, _ response:AudDResult?) -> Void){
         
         let client = NetworkClient()
         let url = "https://api.audd.io/"
@@ -58,9 +58,21 @@ class AudD{
                 return
             }
             
-            guard let result = result else {return}
-            completionHandler(true)
-            print(result)
+            guard let result = result else {
+                completionHandler(false,nil)
+                return}
+            
+            var formattedResult:AudDResponse? = nil
+            do{
+                formattedResult = try JSONDecoder().decode(AudDResponse.self, from: result)
+            }catch{
+                completionHandler(false,nil)
+                print(error)
+            }
+//            let formattedResult = try? JSONDecoder().decode([AudDObject].self, from: result)
+    
+            completionHandler(true, formattedResult?.result)
+            //print(result)
         }
     }
 }

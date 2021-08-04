@@ -20,7 +20,7 @@ class NetworkClient{
     }
     
     
-    func methodForPOST(_ method:String, request:URLRequest, completionHandlerForPOST: @escaping (_ result:AnyObject?, _ error:Error?) -> Void) -> URLSessionDataTask?{
+    func methodForPOST(_ method:String, request:URLRequest, completionHandlerForPOST: @escaping (_ result:Data?, _ error:Error?) -> Void) -> URLSessionDataTask?{
         
         guard let url = URL(string: method) else {print("nope")
             return nil
@@ -47,8 +47,17 @@ class NetworkClient{
                 completionHandlerForPOST(nil, error)
                 return
             }
+            
+            completionHandlerForPOST(data, nil)
 
-            self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForPOST)
+//            self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForPOST)
+            self.convertDataWithCompletionHandler(data) { result, error in
+                guard let result = result else{return}
+                
+                guard let format = result as? [String:Any] else {print("22")
+                    return}
+                //print(result)
+            }
         }
         
 //        let task = session.uploadTask(with: request, from: formData) { (data, response, error) in

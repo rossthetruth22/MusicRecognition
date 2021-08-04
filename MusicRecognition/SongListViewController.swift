@@ -9,8 +9,14 @@ import UIKit
 
 class SongListViewController: UIViewController {
 
+    @IBOutlet var swipeGesture: UISwipeGestureRecognizer!
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
+        //tableView.inte
 
         // Do any additional setup after loading the view.
     }
@@ -26,4 +32,22 @@ class SongListViewController: UIViewController {
     }
     */
 
+}
+
+extension SongListViewController: UITableViewDelegate, UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "SongListCell") as? SongListCell{
+            return cell
+        }
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 112
+    }
 }

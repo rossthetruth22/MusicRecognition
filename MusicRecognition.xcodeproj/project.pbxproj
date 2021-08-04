@@ -22,6 +22,8 @@
 		855CE74B2671B6F3007F3A21 /* MusicRecognition.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 855CE7492671B6F3007F3A21 /* MusicRecognition.xcdatamodeld */; };
 		855CE74D2671B6F6007F3A21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855CE74C2671B6F6007F3A21 /* Assets.xcassets */; };
 		855CE7502671B6F6007F3A21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 855CE74E2671B6F6007F3A21 /* LaunchScreen.storyboard */; };
+		8585A66A26BA401E009DD205 /* AudDStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8585A66926BA401E009DD205 /* AudDStructs.swift */; };
+		8585A66C26BA46E2009DD205 /* LastFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8585A66B26BA46E2009DD205 /* LastFM.swift */; };
 		858A710A26B0EE3100B31184 /* IdentifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A710926B0EE3100B31184 /* IdentifyViewController.swift */; };
 		858A710C26B0F67600B31184 /* SongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A710B26B0F67600B31184 /* SongViewController.swift */; };
 		8595199626AE5A8200FF4E7B /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8595199526AE5A8200FF4E7B /* RoundedButton.swift */; };
@@ -32,6 +34,8 @@
 		85A0C3E826B0A0B7003C4288 /* ShadowImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A0C3E726B0A0B7003C4288 /* ShadowImage.swift */; };
 		85DF0F3026ABA8DF00D85282 /* Playlist+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF0F2C26ABA8DF00D85282 /* Playlist+CoreDataClass.swift */; };
 		85DF0F3226ABA8DF00D85282 /* Song+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF0F2E26ABA8DF00D85282 /* Song+CoreDataClass.swift */; };
+		85F514D326B63F380037DC5B /* ListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F514D226B63F380037DC5B /* ListContainerViewController.swift */; };
+		85F514D526B6C4380037DC5B /* SongListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F514D426B6C4380037DC5B /* SongListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +56,8 @@
 		855CE74C2671B6F6007F3A21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		855CE74F2671B6F6007F3A21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		855CE7512671B6F6007F3A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8585A66926BA401E009DD205 /* AudDStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudDStructs.swift; sourceTree = "<group>"; };
+		8585A66B26BA46E2009DD205 /* LastFM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastFM.swift; sourceTree = "<group>"; };
 		858A710926B0EE3100B31184 /* IdentifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifyViewController.swift; sourceTree = "<group>"; };
 		858A710B26B0F67600B31184 /* SongViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongViewController.swift; sourceTree = "<group>"; };
 		8595199526AE5A8200FF4E7B /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
@@ -62,6 +68,8 @@
 		85A0C3E726B0A0B7003C4288 /* ShadowImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowImage.swift; sourceTree = "<group>"; };
 		85DF0F2C26ABA8DF00D85282 /* Playlist+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Playlist+CoreDataClass.swift"; sourceTree = "<group>"; };
 		85DF0F2E26ABA8DF00D85282 /* Song+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataClass.swift"; sourceTree = "<group>"; };
+		85F514D226B63F380037DC5B /* ListContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListContainerViewController.swift; sourceTree = "<group>"; };
+		85F514D426B6C4380037DC5B /* SongListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +90,7 @@
 				852C0370269572DE0098E524 /* AudD.swift */,
 				852C0377269ABF660098E524 /* ACRCloud.swift */,
 				852C0380269BF92A0098E524 /* MultiPartRequest.swift */,
+				8585A66B26BA46E2009DD205 /* LastFM.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -90,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				852C0374269AB9680098E524 /* CodableStructs.swift */,
+				8585A66926BA401E009DD205 /* AudDStructs.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -126,8 +136,9 @@
 				858A710926B0EE3100B31184 /* IdentifyViewController.swift */,
 				858A710B26B0F67600B31184 /* SongViewController.swift */,
 				855CE7442671B6F3007F3A21 /* ViewController.swift */,
-				855CE7462671B6F3007F3A21 /* Main.storyboard */,
 				8512C9C126B3B00700C8984F /* ArtistViewController.swift */,
+				85F514D226B63F380037DC5B /* ListContainerViewController.swift */,
+				855CE7462671B6F3007F3A21 /* Main.storyboard */,
 				855CE74C2671B6F6007F3A21 /* Assets.xcassets */,
 				855CE74E2671B6F6007F3A21 /* LaunchScreen.storyboard */,
 				855CE7512671B6F6007F3A21 /* Info.plist */,
@@ -143,6 +154,7 @@
 			children = (
 				8595199526AE5A8200FF4E7B /* RoundedButton.swift */,
 				85A0C3E726B0A0B7003C4288 /* ShadowImage.swift */,
+				85F514D426B6C4380037DC5B /* SongListCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -228,13 +240,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85F514D326B63F380037DC5B /* ListContainerViewController.swift in Sources */,
 				852C0375269AB9680098E524 /* CodableStructs.swift in Sources */,
 				852C035726956A580098E524 /* NetworkClient.swift in Sources */,
 				85DF0F3226ABA8DF00D85282 /* Song+CoreDataClass.swift in Sources */,
 				852C0381269BF92A0098E524 /* MultiPartRequest.swift in Sources */,
 				8595199826AE5D7100FF4E7B /* GreetingViewController.swift in Sources */,
+				8585A66C26BA46E2009DD205 /* LastFM.swift in Sources */,
 				855CE7452671B6F3007F3A21 /* ViewController.swift in Sources */,
 				8595199C26B099D600FF4E7B /* AlbumViewController.swift in Sources */,
+				85F514D526B6C4380037DC5B /* SongListCell.swift in Sources */,
 				858A710C26B0F67600B31184 /* SongViewController.swift in Sources */,
 				855CE7412671B6F3007F3A21 /* AppDelegate.swift in Sources */,
 				8595199E26B09ADA00FF4E7B /* PlaylistViewController.swift in Sources */,
@@ -243,6 +258,7 @@
 				855CE7432671B6F3007F3A21 /* SceneDelegate.swift in Sources */,
 				852C0378269ABF660098E524 /* ACRCloud.swift in Sources */,
 				855CE74B2671B6F3007F3A21 /* MusicRecognition.xcdatamodeld in Sources */,
+				8585A66A26BA401E009DD205 /* AudDStructs.swift in Sources */,
 				858A710A26B0EE3100B31184 /* IdentifyViewController.swift in Sources */,
 				85DF0F3026ABA8DF00D85282 /* Playlist+CoreDataClass.swift in Sources */,
 				85A0C3E826B0A0B7003C4288 /* ShadowImage.swift in Sources */,

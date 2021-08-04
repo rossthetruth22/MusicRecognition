@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ArtistViewController: UIViewController {
+class ArtistListViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {

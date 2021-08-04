@@ -9,8 +9,16 @@ import UIKit
 
 class SongViewController: UIViewController {
 
+    var song:AudDResult?
+    @IBOutlet weak var songName: UILabel!
+    @IBOutlet weak var artistName: UILabel!
+    @IBOutlet weak var albumName: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        songName.text = song?.title
+        artistName.text = song?.artist
+        albumName.text = song?.album
 
         // Do any additional setup after loading the view.
     }
