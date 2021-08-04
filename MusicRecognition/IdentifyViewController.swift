@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import CoreAudioKit
 
 class IdentifyViewController: UIViewController {
     
@@ -102,6 +103,7 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         
         let theLink = recorder.url
+        //akaud
         
         AudD.recognize(file: theLink) { success, result in
             if success{
@@ -111,6 +113,13 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
                     let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
                     songController.song = result
                     self.present(songController, animated: true, completion: nil)
+                }
+                
+                do{
+                    try FileManager.default.removeItem(at: theLink)
+                    print("deleted file successfully")
+                }catch{
+                    print(error.localizedDescription)
                 }
                 
             }
@@ -126,12 +135,12 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
 //            }
 //        }
         
-        do{
-            try FileManager.default.removeItem(at: theLink)
-            print("deleted file successfully")
-        }catch{
-            print(error.localizedDescription)
-        }
+//        do{
+//            try FileManager.default.removeItem(at: theLink)
+//            print("deleted file successfully")
+//        }catch{
+//            print(error.localizedDescription)
+//        }
     }
     
 }

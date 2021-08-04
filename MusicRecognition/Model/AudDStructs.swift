@@ -10,11 +10,11 @@ import Foundation
 
 
 struct AudDResponse:Decodable{
-    let result:AudDResult
+    let result:AudDSong
     let status:String
 }
 
-struct AudDResult: Decodable{
+struct AudDSong: Decodable{
     let title:String
     let album:String
     let artist:String

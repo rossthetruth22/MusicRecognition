@@ -12,7 +12,7 @@ class AudD{
     
     private let apiToken = "e23d42f738edfc001032bef10c7f0104"
     
-    static func recognize(file:URL, completionHandler: @escaping (_ success: Bool, _ response:AudDResult?) -> Void){
+    static func recognize(file:URL, completionHandler: @escaping (_ success: Bool, _ response:AudDSong?) -> Void){
         
         let client = NetworkClient()
         let url = "https://api.audd.io/"
