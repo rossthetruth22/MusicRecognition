@@ -72,7 +72,7 @@ class AudD{
 //            let formattedResult = try? JSONDecoder().decode([AudDObject].self, from: result)
     
             completionHandler(true, formattedResult?.result)
-            //print(result)
+            print(result)
         }
     }
 }

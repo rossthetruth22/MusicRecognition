@@ -10,6 +10,8 @@ import UIKit
 class ArtistListViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    var container:CatalogData!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

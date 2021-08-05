@@ -18,9 +18,39 @@ public class Song: NSManagedObject {
         song.name = songToSave.title
         song.isrc = "12345"
         song.timestamp = Date()
-        let album = addAlbum(songToSave, context: context)
-        let artist = addArtist(songToSave, context: context)
-        album.artist = artist
+        var album:Album! = nil
+        var artist:Artist! = nil
+        
+        do{
+            print("trying to fetch an existing album for song \(songToSave.title)")
+            let albumsFetched = try Album.fetchAlbums(songToSave.album, context: context)
+            if albumsFetched.count >= 1{
+                album = albumsFetched.first
+                print("album is \(album.name)")
+                do{
+                    let artistsFetched = try Artist.getArtistByAlbum(album, context: context)
+                    if artistsFetched.count >= 1{
+                        artist = artistsFetched.first
+                        print("artist for album is \(artist.name)")
+                    }else{
+                        print("didn't find an artist for the album")
+                    }
+                }catch{
+                    print("Problem with artist fetch")
+                }
+
+            }else{
+                print("no album found with this name.")
+                album = Album.addAlbum(songToSave, context: context)
+                artist = Artist.addArtist(songToSave, context: context)
+                album.artist = artist
+            }
+        }catch{
+            print("Problem with album fetch")
+        }
+        
+        //let artist = Artist.addArtist(songToSave, context: context)
+        //album.artist = artist
         song.artist = artist
         song.album = album
         song.albumName = album.name
@@ -29,18 +59,36 @@ public class Song: NSManagedObject {
             .lyrics?.lyrics
     }
     
-    static func addAlbum(_ song:AudDSong, context: NSManagedObjectContext) -> Album{
+    static func getSongCounts(_ backgroundContext: NSManagedObjectContext) throws -> Int{
         
-        let album = Album(context: context)
-        album.name = song.album
+        let fetchRequest :NSFetchRequest<Song> = Song.fetchRequest()
         
-        return album
+        var count = 0
+        do{
+           count = try backgroundContext.count(for: fetchRequest)
+        }catch{
+            let error = error as NSError
+            print(error.localizedDescription)
+            //throw CoreDataError.couldNotFetch
+        }
+        return count
     }
     
-    static func addArtist(_ song:AudDSong, context: NSManagedObjectContext) -> Artist{
-        let artist = Artist(context: context)
-        artist.name = song.artist
-        return artist
+    static func fetchSongs(_search:String? = nil, context:NSManagedObjectContext) throws -> [Song]{
+        let fetchRequest :NSFetchRequest<Song> = Song.fetchRequest()
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
+        
+        var songs = [Song]()
+        do{
+            songs = try context.fetch(fetchRequest)
+        }catch{
+            let error = error as NSError
+            print(error.localizedDescription)
+            //throw CoreDataError.couldNotFetch
+        }
+        return songs
     }
+    
 
 }

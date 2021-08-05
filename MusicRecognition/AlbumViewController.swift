@@ -9,6 +9,8 @@ import UIKit
 
 class AlbumListViewController: UIViewController {
 
+    var container:CatalogData!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

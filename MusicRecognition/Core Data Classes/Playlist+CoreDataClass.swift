@@ -11,5 +11,9 @@ import CoreData
 
 @objc(Playlist)
 public class Playlist: NSManagedObject {
+    
+    static func addPlayList(){
+        
+    }
 
 }

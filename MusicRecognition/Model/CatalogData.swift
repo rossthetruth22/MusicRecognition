@@ -75,7 +75,7 @@ class CatalogData:NSPersistentContainer{
         print("Album count is: \(count)")
     }
     
-    func getArtistCount(){
+    private func getArtistCount(){
         
         let fetchRequest : NSFetchRequest<Artist> = Artist.fetchRequest()
         let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
@@ -95,25 +95,18 @@ class CatalogData:NSPersistentContainer{
         
     }
     
-    func fetchSongs(_ searchString:String? = nil) throws -> [Song]{
+    func getSongs(_ search:String? = nil) throws -> [Song]{
 
-        let fetchRequest : NSFetchRequest<Song> = Song.fetchRequest()
-        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptors]
-        
-        
-        var current = [Song]()
-        
+        var songs = [Song]()
         do{
-            current = try viewContext.fetch(fetchRequest)
+            songs = try Song.fetchSongs(context: viewContext)
         }catch{
-            let error = error as NSError
             print(error.localizedDescription)
-            //throw CoreDataError.couldNotFetch
-        
+            throw error
+            
         }
         
-        return current
+        return songs
     }
     
     func createCurrencies(currencyDict: [String:[String:AnyObject]]) throws -> Void{

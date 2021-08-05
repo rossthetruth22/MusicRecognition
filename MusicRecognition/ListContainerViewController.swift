@@ -10,23 +10,24 @@ import UIKit
 class ListContainerViewController: UIViewController {
 
     @IBOutlet weak var labelContainer: UIView!
-    var songListController: UIViewController! = nil
-    var albumListController: UIViewController! = nil
-    var artistListController: UIViewController! = nil
-    var playlistListController: UIViewController! = nil
+    var songListController: SongListViewController! = nil
+    var albumListController: AlbumListViewController! = nil
+    var artistListController: ArtistListViewController! = nil
+    var playlistListController: PlaylistListViewController! = nil
+    var container:CatalogData!
     
     
     override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            UIView.animate(withDuration: 0.6) {
-                self.songListController.view.frame.origin.x -= self.view.frame.width
-                self.albumListController.view.frame.origin.x -= self.view.frame.width
-                self.artistListController.view.frame.origin.x -= self.view.frame.width
-                self.playlistListController.view.frame.origin.x -= self.view.frame.width
-            } completion: { val in
-                print(val)
-            }
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+//            UIView.animate(withDuration: 0.6) {
+//                self.songListController.view.frame.origin.x -= self.view.frame.width
+//                self.albumListController.view.frame.origin.x -= self.view.frame.width
+//                self.artistListController.view.frame.origin.x -= self.view.frame.width
+//                self.playlistListController.view.frame.origin.x -= self.view.frame.width
+//            } completion: { val in
+//                print(val)
+//            }
+//        }
         
 
     }
@@ -34,10 +35,22 @@ class ListContainerViewController: UIViewController {
         super.viewDidLoad()
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
-        songListController = storyboard.instantiateViewController(identifier: "SongList") as! SongListViewController
-        albumListController = storyboard.instantiateViewController(identifier: "AlbumList") as! AlbumListViewController
-        artistListController = storyboard.instantiateViewController(identifier: "ArtistList") as! ArtistListViewController
-        playlistListController = storyboard.instantiateViewController(identifier: "PlaylistList") as! PlaylistListViewController
+        songListController = storyboard.instantiateViewController(identifier: "SongList")
+        albumListController = storyboard.instantiateViewController(identifier: "AlbumList")
+        artistListController = storyboard.instantiateViewController(identifier: "ArtistList")
+        playlistListController = storyboard.instantiateViewController(identifier: "PlaylistList")
+        
+        container = CatalogData.shared
+        guard container != nil else{
+            print("container is not available")
+            return
+        }
+        
+        songListController.container = container
+        albumListController.container = container
+        artistListController.container = container
+        playlistListController.container = container
+        
         
 //        guard let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SongList") as? SongListViewController else {return}
         //self.addChild(controller)
