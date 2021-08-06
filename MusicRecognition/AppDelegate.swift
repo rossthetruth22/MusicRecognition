@@ -46,8 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            print(error)
 //        }
         
-        
-        
+        // TODO: Add logic for checking if first time loading and checking microphone permission
+
         return true
     }
 

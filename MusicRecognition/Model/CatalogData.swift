@@ -23,6 +23,12 @@ class CatalogData:NSPersistentContainer{
     
     func createSong(song: AudDSong) throws -> Void{
         
+        //check if song exists
+        if getSongCount(song.title) >= 1{
+            return
+        }
+        
+        
         Song.addSong(song, context: backgroundContext)
         
         do {
@@ -37,23 +43,32 @@ class CatalogData:NSPersistentContainer{
         getAlbumCount()
     }
     
-    func getSongCount(){
-        
-        let fetchRequest : NSFetchRequest<Song> = Song.fetchRequest()
-        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptors]
+    func getSongCount(_ search:String? = nil) -> Int{
         
         var count = 0
-        
         do{
-           count = try backgroundContext.count(for: fetchRequest)
+            count = try Song.getSongCounts(search, backgroundContext: backgroundContext)
         }catch{
             let error = error as NSError
             print(error.localizedDescription)
-            //throw CoreDataError.couldNotFetch
         }
         
+//        let fetchRequest : NSFetchRequest<Song> = Song.fetchRequest()
+//        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+//        fetchRequest.sortDescriptors = [sortDescriptors]
+//
+//        var count = 0
+//
+//        do{
+//           count = try backgroundContext.count(for: fetchRequest)
+//        }catch{
+//            let error = error as NSError
+//            print(error.localizedDescription)
+//            //throw CoreDataError.couldNotFetch
+//        }
+        
         print("Song count is: \(count)")
+        return count
         
     }
     

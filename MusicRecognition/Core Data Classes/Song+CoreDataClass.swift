@@ -21,6 +21,7 @@ public class Song: NSManagedObject {
         var album:Album! = nil
         var artist:Artist! = nil
         
+        
         do{
             print("trying to fetch an existing album for song \(songToSave.title)")
             let albumsFetched = try Album.fetchAlbums(songToSave.album, context: context)
@@ -42,7 +43,19 @@ public class Song: NSManagedObject {
             }else{
                 print("no album found with this name.")
                 album = Album.addAlbum(songToSave, context: context)
-                artist = Artist.addArtist(songToSave, context: context)
+                //check if existing artist
+                do{
+                    var artists = [Artist]()
+                    artists = try Artist.getArtist(songToSave.artist, context: context)
+                    if artists.count >= 1{
+                        artist = artists.first
+                    }else{
+                        artist = Artist.addArtist(songToSave, context: context)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                }
+                
                 album.artist = artist
             }
         }catch{
@@ -59,9 +72,14 @@ public class Song: NSManagedObject {
             .lyrics?.lyrics
     }
     
-    static func getSongCounts(_ backgroundContext: NSManagedObjectContext) throws -> Int{
+    static func getSongCounts(_ search:String?, backgroundContext: NSManagedObjectContext) throws -> Int{
         
         let fetchRequest :NSFetchRequest<Song> = Song.fetchRequest()
+        if let search = search{
+            let format = "name LIKE[c] %@"
+            let predicate = NSPredicate(format: format, "*\(search)*")
+            fetchRequest.predicate = predicate
+        }
         
         var count = 0
         do{

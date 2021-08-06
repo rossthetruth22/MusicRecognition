@@ -25,7 +25,7 @@ public class Artist: NSManagedObject {
         let fetchRequest :NSFetchRequest<Artist> = Artist.fetchRequest()
         
         if let search = search{
-            let format = "name MATCHES[c] %@"
+            let format = "name LIKE[c] %@"
             let predicate = NSPredicate(format: format, "*\(search)*")
             fetchRequest.predicate = predicate
         }

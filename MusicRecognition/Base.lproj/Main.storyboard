@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="myq-sY-5Dd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KBX-0d-xLB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -55,7 +55,7 @@
             </objects>
             <point key="canvasLocation" x="465" y="-787"/>
         </scene>
-        <!--List Container View Controller-->
+        <!--Catalog-->
         <scene sceneID="YW4-KO-Eb1">
             <objects>
                 <viewController storyboardIdentifier="ListContainer" id="myq-sY-5Dd" customClass="ListContainerViewController" customModule="MusicRecognition" customModuleProvider="target" sceneMemberID="viewController">
@@ -64,14 +64,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qL8-FM-n3n">
-                                <rect key="frame" x="0.0" y="44" width="414" height="58"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="9"/>
                                 <color key="barTintColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <items>
                                     <navigationItem title="Damn Title" id="L5d-gV-yXm"/>
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oLI-bC-ggD" userLabel="Title Container">
-                                <rect key="frame" x="0.0" y="102" width="414" height="65"/>
+                                <rect key="frame" x="0.0" y="53" width="414" height="65"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Songs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xG7-NS-mrk">
                                         <rect key="frame" x="20" y="5" width="374" height="55"/>
@@ -87,7 +87,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zrr-K6-48F">
-                                <rect key="frame" x="0.0" y="167" width="414" height="65"/>
+                                <rect key="frame" x="0.0" y="118" width="414" height="65"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ie4-Ph-M3H">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="65"/>
@@ -144,20 +144,39 @@
                             <constraint firstItem="zrr-K6-48F" firstAttribute="height" secondItem="oLI-bC-ggD" secondAttribute="height" id="yu0-vk-Z1U"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Catalog" id="uAD-Oo-ueJ"/>
                     <connections>
                         <outlet property="labelContainer" destination="zrr-K6-48F" id="zPK-Jv-pt6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lqW-X2-CPf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="511.59420289855075" y="18.75"/>
+            <point key="canvasLocation" x="-4014" y="203"/>
         </scene>
-        <!--Identify View Controller-->
+        <!--Tab Bar Controller-->
+        <scene sceneID="9UH-Gj-w1P">
+            <objects>
+                <tabBarController storyboardIdentifier="TabController" id="6fD-1a-Y4m" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wsq-YO-GiX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BMg-7r-kNf" kind="relationship" relationship="viewControllers" id="lf2-ay-f8o"/>
+                        <segue destination="myq-sY-5Dd" kind="relationship" relationship="viewControllers" id="mE1-hS-ruB"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jif-hX-LV8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4945" y="-311"/>
+        </scene>
+        <!--Identify-->
         <scene sceneID="Vs1-xs-gMG">
             <objects>
                 <viewController id="BMg-7r-kNf" customClass="IdentifyViewController" customModule="MusicRecognition" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HQa-3k-tiJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DkG-UL-m2e">
@@ -168,7 +187,7 @@
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vinylrecord" translatesAutoresizingMaskIntoConstraints="NO" id="lAb-kD-rgh">
-                                <rect key="frame" x="132" y="608" width="150" height="150"/>
+                                <rect key="frame" x="132" y="613" width="150" height="150"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="lAb-kD-rgh" secondAttribute="height" multiplier="1:1" id="Mhd-w7-5vW"/>
@@ -186,6 +205,7 @@
                             <constraint firstItem="lAb-kD-rgh" firstAttribute="centerX" secondItem="2kv-9g-7XB" secondAttribute="centerX" id="Dwb-3t-d10"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Identify" id="YVM-P8-FDR"/>
                     <navigationItem key="navigationItem" id="LYF-Ge-1Y3"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RHD-97-gxv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -195,7 +215,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-3951" y="39"/>
+            <point key="canvasLocation" x="-4096" y="-534"/>
         </scene>
         <!--Song List View Controller-->
         <scene sceneID="TM7-0G-92r">
@@ -288,7 +308,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uYg-Xj-wBU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="right" id="7DX-I7-Ghb"/>
             </objects>
-            <point key="canvasLocation" x="1214.4927536231885" y="18.75"/>
+            <point key="canvasLocation" x="-3310" y="203"/>
         </scene>
         <!--Album List View Controller-->
         <scene sceneID="FPI-sf-Ama">
@@ -347,7 +367,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fIa-vl-C7r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1928" y="19"/>
+            <point key="canvasLocation" x="-2597" y="203"/>
         </scene>
         <!--Playlist List View Controller-->
         <scene sceneID="kXP-3M-5kY">
@@ -399,7 +419,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6mP-Rn-MQL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2609" y="19"/>
+            <point key="canvasLocation" x="-1917" y="203"/>
         </scene>
         <!--Artist List View Controller-->
         <scene sceneID="tPt-9G-cke">
@@ -469,7 +489,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vhm-zZ-9av" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3290" y="19"/>
+            <point key="canvasLocation" x="-1236" y="203"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="61I-6l-uJy">
@@ -495,9 +515,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o3d-I0-jcd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3985.507246376812" y="28.794642857142854"/>
+            <point key="canvasLocation" x="-539" y="213"/>
         </scene>
-        <!--Song View Controller-->
+        <!--Item-->
         <scene sceneID="aUf-FA-So4">
             <objects>
                 <viewController storyboardIdentifier="SongViewController" id="hNj-ma-maE" customClass="SongViewController" customModule="MusicRecognition" customModuleProvider="target" sceneMemberID="viewController">
@@ -557,6 +577,7 @@
                             <constraint firstItem="446-0A-3jM" firstAttribute="centerX" secondItem="dSG-EA-12b" secondAttribute="centerX" id="btm-JE-82M"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="hmJ-6Y-EKU"/>
                     <connections>
                         <outlet property="albumName" destination="HNJ-GQ-A89" id="9Io-x7-rcX"/>
                         <outlet property="artistName" destination="PEt-Jc-b6e" id="IAY-6Q-UFL"/>
@@ -565,7 +586,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bZ3-On-CFM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2971" y="29"/>
+            <point key="canvasLocation" x="-3354" y="-534"/>
         </scene>
         <!--Greeting View Controller-->
         <scene sceneID="yce-rF-rGB">
@@ -602,7 +623,7 @@
                                     <color key="titleShadowColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BMg-7r-kNf" kind="show" id="bfI-QF-xij"/>
+                                    <segue destination="6fD-1a-Y4m" kind="presentation" modalPresentationStyle="fullScreen" id="OgR-v7-ESR"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step into a new world of possibilities and experiences. Start identifying tunes to keep the party going! " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-rA-RV0" userLabel="Step into a new world of possibilities and experiences.">
@@ -639,7 +660,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kt2-Gz-tXj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5690" y="39"/>
+            <point key="canvasLocation" x="-5813" y="-311"/>
         </scene>
     </scenes>
     <designables>

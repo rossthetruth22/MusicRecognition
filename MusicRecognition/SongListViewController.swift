@@ -19,11 +19,7 @@ class SongListViewController: UIViewController {
         super.viewDidLoad()
         
         guard container != nil else{return}
-        do{
-            songs =  try container.getSongs()
-        }catch{
-            print("error getting song view controller data")
-        }
+        getSongs()
         tableView.delegate = self
         tableView.dataSource = self
         NotificationCenter.default.addObserver(self, selector: #selector(handleChanges(notification: )), name: .NSManagedObjectContextDidSave, object: container.backgroundContext)
@@ -42,6 +38,14 @@ class SongListViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    private func getSongs(){
+        do{
+            songs =  try container.getSongs()
+        }catch{
+            print("error getting song view controller data")
+        }
+    }
 
 }
 
@@ -65,12 +69,15 @@ extension SongListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 112
     }
+    
 }
 
 extension SongListViewController: ContextDelegate{
     
     @objc func handleChanges(notification: NSNotification) {
         print("recognized save")
+        getSongs()
+        tableView.reloadData()
     }
     
     

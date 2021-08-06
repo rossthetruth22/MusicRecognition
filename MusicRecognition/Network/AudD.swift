@@ -16,7 +16,9 @@ class AudD{
         
         let client = NetworkClient()
         let url = "https://api.audd.io/"
-        let parameters = "lyrics,apple_music,spotify"
+        //let parameters = "musicbrainz,lyrics,apple_music,spotify"
+        let parameters = "musicbrainz,lyrics"
+
         let apiToken = "e23d42f738edfc001032bef10c7f0104"
         
         //let testURL = Bundle.main.url(forResource: "testfile", withExtension: "mp3")
@@ -72,7 +74,7 @@ class AudD{
 //            let formattedResult = try? JSONDecoder().decode([AudDObject].self, from: result)
     
             completionHandler(true, formattedResult?.result)
-            print(result)
+            
         }
     }
 }

@@ -56,7 +56,7 @@ class NetworkClient{
                 
                 guard let format = result as? [String:Any] else {print("22")
                     return}
-                //print(result)
+                print(result)
             }
         }
         
