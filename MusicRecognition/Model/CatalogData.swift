@@ -24,7 +24,7 @@ class CatalogData:NSPersistentContainer{
     func createSong(song: AudDSong) throws -> Void{
         
         //check if song exists
-        if getSongCount(song.title) >= 1{
+        if getSongCount(song.musicbrainz?.first?.id) >= 1{
             return
         }
         
@@ -42,6 +42,28 @@ class CatalogData:NSPersistentContainer{
         getArtistCount()
         getAlbumCount()
     }
+    
+//    func createSong(response: AudDResponse) throws -> Void{
+//        
+//        //check if song exists
+//        if getSongCount(response.musicbrainz.id) >= 1{
+//            return
+//        }
+//        
+//        Song.addSong(response, context: backgroundContext)
+//        //Song.addSong(song, context: backgroundContext)
+//        
+//        do {
+//            try saveContext(backgroundContext: backgroundContext)
+//        }catch{
+//            print("Couldn't save songs")
+//            throw error
+//        }
+//        
+//        getSongCount()
+//        getArtistCount()
+//        getAlbumCount()
+//    }
     
     func getSongCount(_ search:String? = nil) -> Int{
         
@@ -70,6 +92,18 @@ class CatalogData:NSPersistentContainer{
         print("Song count is: \(count)")
         return count
         
+    }
+    
+    func getSongCount(mbid:String) -> Int{
+        var count = 0
+        do{
+            count = try Song.getSongCounts(mbid, backgroundContext: backgroundContext)
+        }catch{
+            let error = error as NSError
+            print(error.localizedDescription)
+        }
+        
+        return count
     }
     
     func getAlbumCount(){

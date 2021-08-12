@@ -179,11 +179,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DkG-UL-m2e">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DkG-UL-m2e">
                                 <rect key="frame" x="20" y="127" width="374" height="317"/>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nO5-hS-CQJ">
+                                        <rect key="frame" x="30" y="0.0" width="40" height="317"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="rYo-b4-EOz"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="DkG-UL-m2e" secondAttribute="height" multiplier="374:317" id="5Hq-R6-ALk"/>
+                                    <constraint firstAttribute="bottom" secondItem="nO5-hS-CQJ" secondAttribute="bottom" id="CRX-nJ-pCv"/>
+                                    <constraint firstItem="nO5-hS-CQJ" firstAttribute="leading" secondItem="DkG-UL-m2e" secondAttribute="leading" constant="30" id="HHt-Hh-7pX"/>
+                                    <constraint firstAttribute="height" constant="317" id="Xgv-ox-HGn"/>
+                                    <constraint firstAttribute="width" constant="374" id="qXM-wU-mtX"/>
+                                    <constraint firstItem="nO5-hS-CQJ" firstAttribute="top" secondItem="DkG-UL-m2e" secondAttribute="top" id="s5c-nr-bQH"/>
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vinylrecord" translatesAutoresizingMaskIntoConstraints="NO" id="lAb-kD-rgh">
@@ -203,10 +217,17 @@
                         <constraints>
                             <constraint firstItem="2kv-9g-7XB" firstAttribute="bottom" secondItem="lAb-kD-rgh" secondAttribute="bottom" constant="50" id="9Th-1D-aEJ"/>
                             <constraint firstItem="lAb-kD-rgh" firstAttribute="centerX" secondItem="2kv-9g-7XB" secondAttribute="centerX" id="Dwb-3t-d10"/>
+                            <constraint firstItem="DkG-UL-m2e" firstAttribute="centerX" secondItem="HQa-3k-tiJ" secondAttribute="centerX" id="PUr-Z5-gHi"/>
+                            <constraint firstItem="DkG-UL-m2e" firstAttribute="top" secondItem="2kv-9g-7XB" secondAttribute="top" constant="83" id="cnc-n5-7os"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Identify" id="YVM-P8-FDR"/>
                     <navigationItem key="navigationItem" id="LYF-Ge-1Y3"/>
+                    <connections>
+                        <outlet property="containerView" destination="DkG-UL-m2e" id="5PM-10-LC3"/>
+                        <outlet property="gradient" destination="nO5-hS-CQJ" id="JJZ-6A-1Bj"/>
+                        <outlet property="vinylRecord" destination="lAb-kD-rgh" id="gsj-nZ-ZNH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RHD-97-gxv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="e9I-nA-ySv">
@@ -215,7 +236,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-4096" y="-534"/>
+            <point key="canvasLocation" x="-4097.1014492753629" y="-534.375"/>
         </scene>
         <!--Song List View Controller-->
         <scene sceneID="TM7-0G-92r">
@@ -581,12 +602,64 @@
                     <connections>
                         <outlet property="albumName" destination="HNJ-GQ-A89" id="9Io-x7-rcX"/>
                         <outlet property="artistName" destination="PEt-Jc-b6e" id="IAY-6Q-UFL"/>
+                        <outlet property="coverArt" destination="oZi-yg-bre" id="Cle-iZ-DvR"/>
                         <outlet property="songName" destination="Lkk-xl-1uU" id="0kG-78-e1j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bZ3-On-CFM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3354" y="-534"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="IuS-Gc-AFu">
+            <objects>
+                <viewController id="L2s-6c-upw" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FVl-Ol-RyM">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="5Gs-pO-c46"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b4d-Pg-4AY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1943" y="-534"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="lL3-Gh-amJ">
+            <objects>
+                <viewController storyboardIdentifier="NoMatchController" id="3S2-G8-46c" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fns-Lf-7oz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9n2-wc-M6z" customClass="RoundedButton" customModule="MusicRecognition" customModuleProvider="target">
+                                <rect key="frame" x="142" y="466" width="130" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Try Again">
+                                    <color key="titleColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="We're unable to identify the current song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iVm-Rm-CTv">
+                                <rect key="frame" x="57" y="381" width="313" height="77"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="xmark.bin.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="P5d-Dn-eRC">
+                                <rect key="frame" x="146" y="233" width="123" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rNt-3Q-wV1"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BAQ-KO-Q1V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2633" y="-534"/>
         </scene>
         <!--Greeting View Controller-->
         <scene sceneID="yce-rF-rGB">
@@ -679,6 +752,7 @@
         <image name="tylerArtist" width="640" height="640"/>
         <image name="tylersamplepic" width="300" height="300"/>
         <image name="vinylrecord" width="950" height="950"/>
+        <image name="xmark.bin.fill" catalog="system" width="128" height="93"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

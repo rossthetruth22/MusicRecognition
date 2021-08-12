@@ -37,6 +37,9 @@
 		8595199C26B099D600FF4E7B /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8595199B26B099D600FF4E7B /* AlbumViewController.swift */; };
 		8595199E26B09ADA00FF4E7B /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8595199D26B09ADA00FF4E7B /* PlaylistViewController.swift */; };
 		85A0C3E826B0A0B7003C4288 /* ShadowImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A0C3E726B0A0B7003C4288 /* ShadowImage.swift */; };
+		85AE0A9526BDD8A60063C3C6 /* Musicbrainz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AE0A9426BDD8A60063C3C6 /* Musicbrainz.swift */; };
+		85AE0A9726BE2C070063C3C6 /* HTTPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AE0A9626BE2C070063C3C6 /* HTTPURL.swift */; };
+		85CEAFA426C380A900C1884F /* ReleaseGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CEAFA326C380A900C1884F /* ReleaseGroup.swift */; };
 		85DF0F3026ABA8DF00D85282 /* Playlist+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF0F2C26ABA8DF00D85282 /* Playlist+CoreDataClass.swift */; };
 		85DF0F3226ABA8DF00D85282 /* Song+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF0F2E26ABA8DF00D85282 /* Song+CoreDataClass.swift */; };
 		85F514D326B63F380037DC5B /* ListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F514D226B63F380037DC5B /* ListContainerViewController.swift */; };
@@ -76,6 +79,9 @@
 		8595199B26B099D600FF4E7B /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		8595199D26B09ADA00FF4E7B /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
 		85A0C3E726B0A0B7003C4288 /* ShadowImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowImage.swift; sourceTree = "<group>"; };
+		85AE0A9426BDD8A60063C3C6 /* Musicbrainz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Musicbrainz.swift; sourceTree = "<group>"; };
+		85AE0A9626BE2C070063C3C6 /* HTTPURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPURL.swift; sourceTree = "<group>"; };
+		85CEAFA326C380A900C1884F /* ReleaseGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseGroup.swift; sourceTree = "<group>"; };
 		85DF0F2C26ABA8DF00D85282 /* Playlist+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Playlist+CoreDataClass.swift"; sourceTree = "<group>"; };
 		85DF0F2E26ABA8DF00D85282 /* Song+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataClass.swift"; sourceTree = "<group>"; };
 		85F514D226B63F380037DC5B /* ListContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListContainerViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 				852C0377269ABF660098E524 /* ACRCloud.swift */,
 				852C0380269BF92A0098E524 /* MultiPartRequest.swift */,
 				8585A66B26BA46E2009DD205 /* LastFM.swift */,
+				85AE0A9426BDD8A60063C3C6 /* Musicbrainz.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -118,6 +125,8 @@
 				8585A66D26BAD489009DD205 /* CatalogData.swift */,
 				852C0374269AB9680098E524 /* CodableStructs.swift */,
 				8585A66926BA401E009DD205 /* AudDStructs.swift */,
+				85AE0A9626BE2C070063C3C6 /* HTTPURL.swift */,
+				85CEAFA326C380A900C1884F /* ReleaseGroup.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -284,11 +293,13 @@
 				85F514D526B6C4380037DC5B /* SongListCell.swift in Sources */,
 				8585A67726BB17FB009DD205 /* Album+CoreDataClass.swift in Sources */,
 				858A710C26B0F67600B31184 /* SongViewController.swift in Sources */,
+				85AE0A9526BDD8A60063C3C6 /* Musicbrainz.swift in Sources */,
 				855CE7412671B6F3007F3A21 /* AppDelegate.swift in Sources */,
 				8595199E26B09ADA00FF4E7B /* PlaylistViewController.swift in Sources */,
 				852C0371269572DE0098E524 /* AudD.swift in Sources */,
 				8585A67926BB17FB009DD205 /* Artist+CoreDataClass.swift in Sources */,
 				8528CC8726BC8C84005E2473 /* ContextProtocol.swift in Sources */,
+				85AE0A9726BE2C070063C3C6 /* HTTPURL.swift in Sources */,
 				8595199626AE5A8200FF4E7B /* RoundedButton.swift in Sources */,
 				855CE7432671B6F3007F3A21 /* SceneDelegate.swift in Sources */,
 				852C0378269ABF660098E524 /* ACRCloud.swift in Sources */,
@@ -296,6 +307,7 @@
 				855CE74B2671B6F3007F3A21 /* MusicRecognition.xcdatamodeld in Sources */,
 				8585A66A26BA401E009DD205 /* AudDStructs.swift in Sources */,
 				858A710A26B0EE3100B31184 /* IdentifyViewController.swift in Sources */,
+				85CEAFA426C380A900C1884F /* ReleaseGroup.swift in Sources */,
 				85DF0F3026ABA8DF00D85282 /* Playlist+CoreDataClass.swift in Sources */,
 				85A0C3E826B0A0B7003C4288 /* ShadowImage.swift in Sources */,
 				8595199A26B0984F00FF4E7B /* SongListViewController.swift in Sources */,

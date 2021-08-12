@@ -16,9 +16,19 @@ public class Album: NSManagedObject {
         
         let album = Album(context: context)
         album.name = song.album
+        album.mbid = song.musicbrainz?.first?.releases.first?.id
         
         return album
     }
+    
+//    static func addAlbum(response:AudDResponse, context: NSManagedObjectContext) -> Album{
+//
+//        let album = Album(context: context)
+//        album.name = response.result.album
+//        album.mbid = response.musicbrainz.releases.first?.id
+//
+//        return album
+//    }
     
     static func fetchAlbums(_ search: String? = nil, context: NSManagedObjectContext) throws -> [Album]{
         
@@ -40,6 +50,27 @@ public class Album: NSManagedObject {
             throw error
         }
         return albums
+    }
+    
+    static func fetchAlbums(albumMbid:String, context: NSManagedObjectContext) throws ->[Album]{
+        
+        var albums = [Album]()
+        
+        let fetchRequest :NSFetchRequest<Album> = Album.fetchRequest()
+        
+        let format = "mbid MATCHES %@"
+        let predicate = NSPredicate(format: format, albumMbid)
+        fetchRequest.predicate = predicate
+        
+
+        do{
+            albums = try context.fetch(fetchRequest)
+        }catch{
+            print(error.localizedDescription)
+            throw error
+        }
+        return albums
+        
     }
     
     

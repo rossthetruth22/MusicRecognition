@@ -12,9 +12,9 @@ class AudD{
     
     private let apiToken = "e23d42f738edfc001032bef10c7f0104"
     
-    static func recognize(file:URL, completionHandler: @escaping (_ success: Bool, _ response:AudDSong?) -> Void){
+    static func recognize(file:URL, completionHandler: @escaping (_ success: Bool, _ response:AudDSong?, _ picURL:String?) -> Void){
         
-        let client = NetworkClient()
+        let client = NetworkClient.shared
         let url = "https://api.audd.io/"
         //let parameters = "musicbrainz,lyrics,apple_music,spotify"
         let parameters = "musicbrainz,lyrics"
@@ -55,25 +55,41 @@ class AudD{
 //        }
         
         
-        client.methodForPOST(url, request: request.loadRequest()) { (result, error) in
+        let _ = client.methodForPOST(url, request: request.loadRequest()) { (result, error) in
             guard (error == nil) else {print(error)
                 return
             }
             
             guard let result = result else {
-                completionHandler(false,nil)
+                completionHandler(false,nil,nil)
                 return}
-            
+
             var formattedResult:AudDResponse? = nil
             do{
                 formattedResult = try JSONDecoder().decode(AudDResponse.self, from: result)
             }catch{
-                completionHandler(false,nil)
+                completionHandler(false,nil,nil)
                 print(error)
             }
-//            let formattedResult = try? JSONDecoder().decode([AudDObject].self, from: result)
-    
-            completionHandler(true, formattedResult?.result)
+
+            //MARK: changing temporarily to allow nil musicbrainz. will populate later
+            //print(formattedResult?.result?.musicbrainz.first?.releases)
+            if var song = formattedResult?.result{
+                if let _ = formattedResult?.result?.musicbrainz?.first{
+                    song.musicbrainz?[0].sortRelease()
+                    let release = song.musicbrainz?.first?.releases.first
+                    let picurl = release?.releaseGroup.id
+                    completionHandler(true, song, picurl)
+                }else{
+                    //TODO: Get musicbrainz info since we don't have it here
+                    completionHandler(true, song, nil)
+                }
+                //MARK: changing temporarily to allow nil musicbrainz. will populate later
+                
+            }else{
+                completionHandler(false, nil,nil)
+            }
+            
             
         }
     }

@@ -15,8 +15,17 @@ public class Artist: NSManagedObject {
     static func addArtist(_ song:AudDSong, context: NSManagedObjectContext) -> Artist{
         let artist = Artist(context: context)
         artist.name = song.artist
+        artist.mbid = song.musicbrainz?.first?.releases.first?.id
         return artist
     }
+    
+//    static func addArtist(response:AudDResponse, context: NSManagedObjectContext) -> Artist{
+//        let artist = Artist(context: context)
+//        let song = response.result
+//        artist.name = song.artist
+//        artist.mbid = response.musicbrainz.releases.first?.id
+//        return artist
+//    }
     
     static func getArtist(_ search:String? = nil, context:NSManagedObjectContext) throws -> [Artist]{
         
@@ -41,6 +50,29 @@ public class Artist: NSManagedObject {
         
     }
     
+    static func getArtist(artistMbid:String, context:NSManagedObjectContext) throws -> [Artist]{
+        
+        var artists = [Artist]()
+        
+        let fetchRequest :NSFetchRequest<Artist> = Artist.fetchRequest()
+        
+        let format = "mbid MATCHES %@"
+        let predicate = NSPredicate(format: format, artistMbid)
+        //let predicate = NSPredicate(format: format, artistMbid)
+        fetchRequest.predicate = predicate
+
+        
+        do{
+            artists = try context.fetch(fetchRequest)
+        }catch{
+            print(error.localizedDescription)
+            throw error
+        }
+        
+        return artists
+        
+    }
+    
     static func getArtistByAlbum(_ album:Album, context:NSManagedObjectContext) throws -> [Artist]{
         //var artists = [Artist]()
         
@@ -51,6 +83,30 @@ public class Artist: NSManagedObject {
         guard let albumName = album.name else{throw "fucked up" }
         
         let predicate = NSPredicate(format: format, albumName)
+        fetchRequest.predicate = predicate
+        
+        var artists = [Artist]()
+        do{
+            artists = try context.fetch(fetchRequest)
+            print("artist count for album is\(artists.count)")
+        }catch{
+            print(error.localizedDescription)
+            throw error
+        }
+        
+        return artists
+    }
+    
+    static func getArtistByAlbum(albumMbid:String, context:NSManagedObjectContext) throws -> [Artist]{
+        //var artists = [Artist]()
+        
+        let fetchRequest :NSFetchRequest<Artist> = Artist.fetchRequest()
+        
+        let format = "ANY albums.mbid == %@"
+        
+        //guard let albumID = musicBrainz.releases.first?.id else{throw "fucked up" }
+        
+        let predicate = NSPredicate(format: format, albumMbid)
         fetchRequest.predicate = predicate
         
         var artists = [Artist]()

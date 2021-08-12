@@ -10,9 +10,14 @@ import UIKit
 class SongViewController: UIViewController {
 
     var song:AudDSong!
+    var response:AudDResponse!
+    var image:UIImage?
+    
     @IBOutlet weak var songName: UILabel!
     @IBOutlet weak var artistName: UILabel!
     @IBOutlet weak var albumName: UILabel!
+    @IBOutlet weak var coverArt: ShadowImage!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +34,14 @@ class SongViewController: UIViewController {
         songName.text = identifyViewModel.songName
         artistName.text = identifyViewModel.artistName
         albumName.text = identifyViewModel.albumName
+        coverArt.image = image
     }
     
     
     @IBAction func saveTapped(_ sender: Any) {
         
         do{
+            //try CatalogData.shared.createSong(song: self.song)
             try CatalogData.shared.createSong(song: self.song)
         }catch{
             print(error.localizedDescription)
