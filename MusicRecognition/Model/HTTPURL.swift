@@ -11,12 +11,14 @@ struct HTTPURL{
     let scheme:String
     let host:String
     let path:String
+    let method:String?
     let parameters:[String:AnyObject]
     
-    init(_ scheme:String, _ host:String, _ path:String, _ parameters: [String:AnyObject]){
+    init(_ scheme:String, _ host:String, _ path:String, _ method:String? = nil, _ parameters: [String:AnyObject]){
         self.scheme = scheme
         self.host = host
         self.path = path
+        self.method = method
         self.parameters = parameters
     }
     

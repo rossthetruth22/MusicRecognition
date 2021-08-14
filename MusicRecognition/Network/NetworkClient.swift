@@ -13,7 +13,7 @@ class NetworkClient{
     let session = URLSession.shared
     static let shared = NetworkClient()
     
-    func methodForGET(_ method:String?, httpURL: HTTPURL, completionHandlerForGET: @escaping (_ result:Data?, _ error:Error?) -> Void) -> URLSessionDataTask{
+    func methodForGET(_ httpURL: HTTPURL, completionHandlerForGET: @escaping (_ result:Data?, _ error:Error?) -> Void) -> URLSessionDataTask{
         
         let url = sessionURLFromParameters(httpURL: httpURL)
         print("URL IS: \(url)")
@@ -175,7 +175,7 @@ class NetworkClient{
         var components = URLComponents()
         components.scheme = httpURL.scheme
         components.host = httpURL.host
-        components.path = httpURL.path + (withPathExtension ?? "")
+        components.path = httpURL.path + (httpURL.method ?? "")
         components.queryItems = [URLQueryItem]()
         
         for (key, value) in httpURL.parameters {

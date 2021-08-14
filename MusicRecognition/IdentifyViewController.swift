@@ -304,78 +304,133 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         
         let theLink = recorder.url
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         //akaud
         
-        AudD.recognize(file: theLink) { [weak self] success, result, picURL in
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            //MARK: changing temporarily to allow nil musicbrainz. will populate later
-            if success{
-                let musicBrainz = result?.musicbrainz?.first?.releases.first
+//        AudD.recognize(file: theLink) { [weak self] success, result, picURL in
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            //MARK: changing temporarily to allow nil musicbrainz. will populate later
+//            if success{
+//                let musicBrainz = result?.musicbrainz?.first?.releases.first
+//
+//                var image = UIImage()
+//                if let url = picURL{
+//                    //let music = Musicbrainz()
+//                    let newURLString = url.replacingOccurrences(of: "http:", with: "https:")
+//                    let callURL = URL(string: newURLString)!
+//                    DispatchQueue.global().async {
+//                        var data:Data! = nil
+//                        //var image = UIImage()
+//                        do{
+//                            data = try Data(contentsOf: callURL)
+//                            image = UIImage(data: data)!
+//                        }catch{
+//                            print(error.localizedDescription)
+//                        }
+//
+//                        DispatchQueue.main.async {
+//                            //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                            //storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                            self?.vinylRecord.layer.removeAllAnimations()
+//                            let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
+//                            songController.song = result
+//                            songController.image = image
+//                            self?.present(songController, animated: true, completion: nil)
+//                        }
+//                    }
+//
+//
+////                    music.getPictureURL(musicBrainz!.releaseGroup.id) { picUrl, error in
+////                        print(picUrl)
+////                        let newURLString = picUrl?.replacingOccurrences(of: "http:", with: "https:")
+////                        let callURL = URL(string: newURLString!)!
+////                        DispatchQueue.global().async {
+////                            var data:Data! = nil
+////                            //var image = UIImage()
+////                            do{
+////                                data = try Data(contentsOf: callURL)
+////                                image = UIImage(data: data)!
+////                            }catch{
+////                                print(error.localizedDescription)
+////                            }
+////
+////                            DispatchQueue.main.async {
+////                                //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+////                                //storyboard = UIStoryboard(name: "Main", bundle: nil)
+////                                self?.vinylRecord.layer.removeAllAnimations()
+////                                let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
+////                                songController.song = result
+////                                songController.image = image
+////                                self?.present(songController, animated: true, completion: nil)
+////                            }
+////                        }
+////                    }
+//
+//                }else{
+//                    DispatchQueue.main.async {
+//                        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                        self?.vinylRecord.layer.removeAllAnimations()
+//                        let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
+//                        songController.song = result
+//                        songController.image = image
+//                        self?.present(songController, animated: true, completion: nil)
+//                    }
+//                }
+//
+//
+//
+//                print("Got the release group \(musicBrainz?.releaseGroup.id)")
+//
+//
+//
+//
+//                do{
+//                    try FileManager.default.removeItem(at: theLink)
+//                    print("deleted file successfully")
+//                }catch{
+//                    print(error.localizedDescription)
+//                }
+//
+//            }else{
+//                DispatchQueue.main.async {
+//                    self?.vinylRecord.layer.removeAllAnimations()
+//                    let noMatch = storyboard.instantiateViewController(identifier: "NoMatchController")
+//                    self?.present(noMatch, animated: true, completion: nil)
+//                    print("unable to identify")
+//                }
+//
+//            }
+//        }
+        //ACRCloud.identify(theLink)
+        ACRCloud.identify(theLink) { [weak self] sucess, result, pictureURL in
+            if let url = pictureURL{
+                print(pictureURL)
                 
                 var image = UIImage()
-                if let url = picURL{
-                    Musicbrainz.getPictureURL(musicBrainz!.releaseGroup.id) { picUrl, error in
-                        //print(picUrl)
-                        let newURLString = picUrl?.replacingOccurrences(of: "http:", with: "https:")
-                        let callURL = URL(string: newURLString!)!
-                        DispatchQueue.global().async {
-                            var data:Data! = nil
-                            //var image = UIImage()
-                            do{
-                                data = try Data(contentsOf: callURL)
-                                image = UIImage(data: data)!
-                            }catch{
-                                print(error.localizedDescription)
-                            }
-
-                            DispatchQueue.main.async {
-                                //let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                //storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                self?.vinylRecord.layer.removeAllAnimations()
-                                let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
-                                songController.song = result
-                                songController.image = image
-                                self?.present(songController, animated: true, completion: nil)
-                            }
-                        }
+                let newURLString = url.replacingOccurrences(of: "http:", with: "https:")
+                let callURL = URL(string: newURLString)!
+                DispatchQueue.global().async {
+                    var data:Data! = nil
+                    //var image = UIImage()
+                    do{
+                        data = try Data(contentsOf: callURL)
+                        image = UIImage(data: data)!
+                    }catch{
+                        print(error.localizedDescription)
                     }
-                    
-                }else{
+
                     DispatchQueue.main.async {
                         //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        //storyboard = UIStoryboard(name: "Main", bundle: nil)
                         self?.vinylRecord.layer.removeAllAnimations()
                         let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
-                        songController.song = result
+                        songController.acr = result!
                         songController.image = image
                         self?.present(songController, animated: true, completion: nil)
                     }
                 }
-            
-                
-                
-                print("Got the release group \(musicBrainz?.releaseGroup.id)")
-                
-                
-                
-                
-                do{
-                    try FileManager.default.removeItem(at: theLink)
-                    print("deleted file successfully")
-                }catch{
-                    print(error.localizedDescription)
-                }
-                
-            }else{
-                DispatchQueue.main.async {
-                    self?.vinylRecord.layer.removeAllAnimations()
-                    let noMatch = storyboard.instantiateViewController(identifier: "NoMatchController")
-                    self?.present(noMatch, animated: true, completion: nil)
-                    print("unable to identify")
-                }
-                
             }
         }
-        //ACRCloud.identify(theLink)
         
 //        if flag{
 //            audioPlayer = try? AVAudioPlayer(contentsOf: theLink)
@@ -386,12 +441,12 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
 //            }
 //        }
         
-//        do{
-//            try FileManager.default.removeItem(at: theLink)
-//            print("deleted file successfully")
-//        }catch{
-//            print(error.localizedDescription)
-//        }
+        do{
+            try FileManager.default.removeItem(at: theLink)
+            print("deleted file successfully")
+        }catch{
+            print(error.localizedDescription)
+        }
     }
     
 }

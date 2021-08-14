@@ -11,6 +11,7 @@ class SongViewController: UIViewController {
 
     var song:AudDSong!
     var response:AudDResponse!
+    var acr:ACRMusic!
     var image:UIImage?
     
     @IBOutlet weak var songName: UILabel!
@@ -29,11 +30,17 @@ class SongViewController: UIViewController {
     }
     
     func configureScreen(){
-        let identifyViewModel = IdentifyViewModel(song)
+        //let identifyViewModel = IdentifyViewModel(song)
+//        songName.text = identifyViewModel.songName
+//        artistName.text = identifyViewModel.artistName
+//        albumName.text = identifyViewModel.albumName
         
-        songName.text = identifyViewModel.songName
-        artistName.text = identifyViewModel.artistName
-        albumName.text = identifyViewModel.albumName
+        let idViewModel = IDViewModel(acr)
+        songName.text = idViewModel.songName
+        artistName.text = idViewModel.artistName
+        albumName.text = idViewModel.albumName
+        
+        
         coverArt.image = image
     }
     

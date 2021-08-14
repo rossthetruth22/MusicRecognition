@@ -82,11 +82,26 @@ class AudD{
                     completionHandler(true, song, picurl)
                 }else{
                     //TODO: Get musicbrainz info since we don't have it here
-                    completionHandler(true, song, nil)
+                    let musicBrainz = Musicbrainz()
+                    musicBrainz.getMusicBrainzRelease(song) { recording, error in
+                        guard error == nil else{return}
+                        
+                        guard let mbid = recording?.releases.first?.releaseGroup.id else {
+                            completionHandler(true, song, nil)
+                            return}
+                        musicBrainz.getPictureURL(mbid) { picURL, error in
+                            
+                            guard error == nil else{return}
+                            guard picURL != nil else{return}
+                            completionHandler(true,song,picURL!)
+                        }
+                        print("works bitch")
+                    }
                 }
                 //MARK: changing temporarily to allow nil musicbrainz. will populate later
                 
             }else{
+                //error
                 completionHandler(false, nil,nil)
             }
             

@@ -24,6 +24,7 @@ enum ReleaseGroup:String{
     case remix = "Remix"
     case djMix = "DJ-mix"
     case mixtape = "Mixtape/Street"
+    case random
     
     var order:Int{
         switch self{
@@ -48,6 +49,15 @@ enum ReleaseGroup:String{
 
         }
         
+    }
+    
+    init?(_ releaseGroup:String?){
+        if releaseGroup == nil{
+            self = .random
+        }else{
+            self.init(rawValue: releaseGroup!)
+        }
+    
     }
 
     

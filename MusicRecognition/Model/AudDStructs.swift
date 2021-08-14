@@ -18,7 +18,7 @@ struct AudDSong: Decodable{
     let title:String
     let album:String
     let artist:String
-    let label:String
+    let label:String?
     let lyrics:Lyrics?
     var musicbrainz:[MusicBrainz]?
     
