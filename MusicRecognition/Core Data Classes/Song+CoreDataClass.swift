@@ -17,7 +17,7 @@ public class Song: NSManagedObject {
         let song = Song(context: context)
         let musicBrainz = songToSave.musicbrainz
         song.name = songToSave.title
-        song.isrc = "12345"
+        //song.isrc = "12345"
         song.timestamp = Date()
         song.mbid = musicBrainz?.first?.id
         var album:Album! = nil
@@ -132,6 +132,55 @@ public class Song: NSManagedObject {
             //throw CoreDataError.couldNotFetch
         }
         return songs
+    }
+    
+    static func fetchAlbumSongs(_ album:Album, context:NSManagedObjectContext) throws -> [Song]{
+            
+        let fetchRequest : NSFetchRequest<Song> = Song.fetchRequest()
+        let predicate = NSPredicate(format: "album == %@", album)
+        fetchRequest.predicate = predicate
+        let sortDescriptors = NSSortDescriptor(key: "trackCount", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
+        var songs = [Song]()
+        do {
+            songs = try context.fetch(fetchRequest)
+        }catch{
+            
+        }
+        return songs
+    }
+    
+    static func fetchArtistSongs(_ artist:Artist, context:NSManagedObjectContext) throws -> [Song]{
+            
+        let fetchRequest : NSFetchRequest<Song> = Song.fetchRequest()
+        let predicate = NSPredicate(format: "artist == %@", artist)
+        fetchRequest.predicate = predicate
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
+        var songs = [Song]()
+        do {
+            songs = try context.fetch(fetchRequest)
+        }catch{
+            
+        }
+        return songs
+    }
+    
+    static func fetchPlaylistSongs(_ playlist:Playlist, context:NSManagedObjectContext) throws -> [Song]{
+        
+        let fetchRequest : NSFetchRequest<Song> = Song.fetchRequest()
+        let predicate = NSPredicate(format: "playlist == %@", playlist)
+        fetchRequest.predicate = predicate
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
+        var songs = [Song]()
+        do {
+            songs = try context.fetch(fetchRequest)
+        }catch{
+            
+        }
+        return songs
+        
     }
     
     static func fetchSongs(_ musicBrainz:MusicBrainz, context:NSManagedObjectContext) throws -> [Song]{

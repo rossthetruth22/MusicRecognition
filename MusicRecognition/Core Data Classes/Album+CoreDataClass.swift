@@ -42,6 +42,8 @@ public class Album: NSManagedObject {
             let predicate = NSPredicate(format: format, "*\(search)*")
             fetchRequest.predicate = predicate
         }
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
 
         do{
             albums = try context.fetch(fetchRequest)
@@ -61,6 +63,8 @@ public class Album: NSManagedObject {
         let format = "mbid MATCHES %@"
         let predicate = NSPredicate(format: format, albumMbid)
         fetchRequest.predicate = predicate
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
         
 
         do{

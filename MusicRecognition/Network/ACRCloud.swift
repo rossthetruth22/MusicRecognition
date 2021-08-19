@@ -76,7 +76,7 @@ class ACRCloud{
 //        let audDPost = AudDPost(api_token: apiToken, file: songFile, returnVar: parameters)
         
         //commenting for compile. change method signature
-        client.methodForPOST(url, request: request.loadRequest()) { (result, error) in
+        let _ = client.methodForPOST(url, request: request.loadRequest()) { (result, error) in
             guard (error == nil) else {print(error)
                 return
             }
@@ -97,10 +97,7 @@ class ACRCloud{
                 //sucessful identification
                 //sort by score
                 let musicCollection = response.metadata!.music
-                let sortedMusics = musicCollection.sorted { musicOne, musicTwo in
-                    
-                    return ACROrder(musicOne.score).order > ACROrder(musicTwo.score).order
-                }
+                let sortedMusics = sortACRMusic(musicCollection)
                 
                 guard let firstMusic = sortedMusics.first else{return}
                 
@@ -113,7 +110,16 @@ class ACRCloud{
                 musicBrainz.getMusicBrainzReleaseACR(trackName, album: albumName, artist: artistName) { recording, error in
                     guard error == nil else{return}
                     
-                    guard let mbid = recording?.releases.first?.releaseGroup.id else {
+                    guard let releases = sortRelease(recording?.releases, album: albumName) else {
+                        print("another problem")
+                        return
+                    }
+                    for release in releases{
+                        print("/n")
+                        print(release)
+                        print("/n")
+                    }
+                    guard let mbid = releases.first?.releaseGroup.id else {
                         //completionHandler(true, song, nil)
                         return}
                     musicBrainz.getPictureURL(mbid) { picURL, error in
@@ -126,7 +132,7 @@ class ACRCloud{
                 
                 
             }else{
-                
+                completionHandler(false,nil,nil)
             }
             
             
@@ -141,6 +147,44 @@ class ACRCloud{
 //
 //           print(data)
 //        }
+    }
+    
+    private static func sortACRMusic(_ music:[ACRMusic]) -> [ACRMusic]{
+        guard music.count > 1 else {return music}
+        
+        var hold = music
+        
+        hold.sort { musicOne, musicTwo in
+            
+            return ACROrder(musicOne.score).order > ACROrder(musicTwo.score).order
+        }
+        
+        return hold
+    }
+    
+    private static func sortRelease(_ release:[RealMusicbrainzRelease]?, album:String) -> [RealMusicbrainzRelease]?{
+        
+        guard var releases = release else {return release}
+        guard releases.count > 1 else {return release}
+        
+        print("album is \(album)")
+        
+        releases.sort { one, two in
+            let groupOne = one
+            let groupTwo = two
+            
+            if groupOne.title == album && groupTwo.title == album{
+                return ReleaseGroup(groupOne.releaseGroup.primaryType)!.order < ReleaseGroup(groupTwo.releaseGroup.primaryType)!.order
+            }else if groupOne.title == album{
+                return groupOne.title == album
+            }else if groupTwo.title == album{
+                return groupTwo.title == album
+            }
+            
+            return groupTwo.title < groupOne.title
+        }
+        
+        return releases
     }
     
     private static func getTimestamp() -> String{

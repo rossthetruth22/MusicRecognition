@@ -135,7 +135,8 @@ class Musicbrainz{
         
         let callStringOne = "(\(recording)\(and) \(release))"
         let callStringTwo = "(\(recording)\(and) \(release)\(and) (\(artist)\(or) \(artistName)))"
-        let callString = "\(callStringOne)\(or) \(callStringTwo)"
+        let callStringThree = "(\(recording)\(and) (\(artist)\(or) \(artistName)))"
+        let callString = "\(callStringOne)\(or) \(callStringTwo)\(or) \(callStringThree)"
         
         let queryItems = ["query":callString, "fmt":"json"] as [String:AnyObject]
         
@@ -178,6 +179,7 @@ class Musicbrainz{
                 // UnderPressure remix by CPTime/Cole Parkinson
                 print(realrecordings)
                 completionForRelease(realrecordings.first!, nil)
+                //no musicbrainz?
             }else{
                 //some error
                 completionForRelease(nil,nil)

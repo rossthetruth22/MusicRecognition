@@ -46,6 +46,8 @@ class SongListViewController: UIViewController {
             print("error getting song view controller data")
         }
     }
+    
+    
 
 }
 
@@ -54,8 +56,9 @@ extension SongListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "SongListCell") as? SongListCell{
             let song = songs[indexPath.row]
-            cell.albumName.text = song.albumName
-            cell.artistName.text = song.artistName
+            //cell.albumName.text = song.albumName
+            //cell.artistName.text = song.artistName
+            //print(song.artistName)
             cell.songName.text = song.name
             return cell
         }
@@ -67,7 +70,7 @@ extension SongListViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 112
+        return 80
     }
     
 }

@@ -158,6 +158,74 @@ class CatalogData:NSPersistentContainer{
         return songs
     }
     
+    func getAlbums(_ search:String? = nil) throws -> [Album]{
+
+        var albums = [Album]()
+        do{
+            albums = try Album.fetchAlbums(context: viewContext)
+        }catch{
+            print(error.localizedDescription)
+            throw error
+            
+        }
+        
+        return albums
+    }
+    
+    func getAlbumSongs(_ album:Album) throws -> [Song]{
+        
+        var songs = [Song]()        
+        do{
+            songs = try Song.fetchAlbumSongs(album, context: viewContext)
+        }catch{
+            
+        }
+        return songs
+    }
+    
+    func getAllArtists() throws -> [Artist]{
+        
+        var artists = [Artist]()
+        do{
+            artists = try Artist.getArtist(context: viewContext)
+        }catch{
+            print(error.localizedDescription)
+            throw error
+            
+        }
+        return artists
+    }
+    
+    func getAllArtistSongs(_ artist:Artist) throws -> [Song]{
+        var songs = [Song]()
+        do{
+            songs = try Song.fetchArtistSongs(artist, context: viewContext)
+        }catch{
+            
+        }
+        return songs
+    }
+    
+    func getAllPlaylists() throws -> [Playlist]{
+        var playlists = [Playlist]()
+        do{
+            playlists = try Playlist.getPlaylist(context: viewContext)
+        }catch{
+            
+        }
+        return playlists
+    }
+    
+    func getAllSongsForPlaylist(_ playlist:Playlist) throws -> [Song]{
+        var songs = [Song]()
+        do{
+            songs = try Song.fetchPlaylistSongs(playlist, context: viewContext)
+        }catch{
+            
+        }
+        return songs
+    }
+    
     func createCurrencies(currencyDict: [String:[String:AnyObject]]) throws -> Void{
         
         do {

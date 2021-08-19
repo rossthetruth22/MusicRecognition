@@ -9,12 +9,19 @@ import UIKit
 
 class ListContainerViewController: UIViewController {
 
-    @IBOutlet weak var labelContainer: UIView!
+    @IBOutlet weak var labelContainer: LabelView!
     var songListController: SongListViewController! = nil
     var albumListController: AlbumListViewController! = nil
     var artistListController: ArtistListViewController! = nil
     var playlistListController: PlaylistListViewController! = nil
     var container:CatalogData!
+    
+    var songControllerCenter:CGFloat!
+    var albumControllerCenter:CGFloat!
+    var artistControllerCenter:CGFloat!
+    var playlistControllerCenter:CGFloat!
+    var currentTab = 0
+    var currentController:UIViewController!
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,6 +57,8 @@ class ListContainerViewController: UIViewController {
         albumListController.container = container
         artistListController.container = container
         playlistListController.container = container
+        
+        
         
         
 //        guard let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SongList") as? SongListViewController else {return}
@@ -94,6 +103,15 @@ class ListContainerViewController: UIViewController {
         albumListController.didMove(toParent: self)
         artistListController.didMove(toParent: self)
         playlistListController.didMove(toParent: self)
+        
+        songControllerCenter = songListController.view.center.x
+        albumControllerCenter = albumListController.view.center.x
+        artistControllerCenter = artistListController.view.center.x
+        playlistControllerCenter = playlistListController.view.center.x
+        
+        let selector = #selector(ListContainerViewController.handleButtonTap(_:))
+        labelContainer.assignHandlers(selector)
+        currentController = songListController
 
         // Do any additional setup after loading the view.
     }
@@ -111,5 +129,60 @@ class ListContainerViewController: UIViewController {
     
     private func addChildController(_ controller:UIViewController, _ title:String){
         
+    }
+    
+
+    
+    @objc func handleButtonTap(_ sender:UIButton){
+        
+        var moveTo = CGFloat()
+        var fromCenter = CGFloat()
+        
+        switch currentController{
+        case songListController:
+            fromCenter = songControllerCenter
+        case albumListController:
+            fromCenter = albumControllerCenter
+        case artistListController:
+            fromCenter = artistControllerCenter
+        case playlistListController:
+            fromCenter = playlistControllerCenter
+        default:
+            fromCenter = CGFloat()
+        }
+            
+        switch sender.tag{
+        case 0:
+            
+            moveTo = fromCenter - songControllerCenter
+            currentController = songListController
+        case 1:
+            moveTo = fromCenter - albumControllerCenter
+            currentController = albumListController
+        case 2:
+            moveTo = fromCenter - artistControllerCenter
+            currentController = artistListController
+        case 3:
+            moveTo = fromCenter - playlistControllerCenter
+            currentController = playlistListController
+        default:
+            moveTo = fromCenter - songControllerCenter
+            currentController = songListController
+    
+        }
+        
+        UIView.animate(withDuration: 1.0) { [self] in
+            self.songListController.view.center.x += moveTo
+            self.albumListController.view.center.x += moveTo
+            self.artistListController.view.center.x += moveTo
+            self.playlistListController.view.center.x += moveTo
+            
+        } completion: { result in
+            if result{
+                print(result)
+            }
+        }
+
+        print("button tapped")
     }
 }

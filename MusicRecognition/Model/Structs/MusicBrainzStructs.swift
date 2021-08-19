@@ -18,7 +18,7 @@ struct RealMusicbrainzRecording:Decodable{
     let score:Int
     let title:String
     let disambiguation:String? = nil
-    let artistCredit:[RealMusicbrainzArtistCredit?]
+    let artistCredit:[RealMusicbrainzArtistCredit?]?
     let firstReleaseDate:String
     let releases:[RealMusicbrainzRelease]
     let isrcs:[String]? = nil
@@ -54,7 +54,7 @@ struct RealMusicbrainzRelease:Decodable{
     let title:String
     let status:String?
     let disambiguation:String?
-    let artistCredit:[RealMusicbrainzArtistCredit?]
+    let artistCredit:[RealMusicbrainzArtistCredit?]?
     let releaseGroup:RealMusicbrainzReleaseGroup
     let date:String?
     

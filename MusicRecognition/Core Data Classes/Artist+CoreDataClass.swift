@@ -38,6 +38,8 @@ public class Artist: NSManagedObject {
             let predicate = NSPredicate(format: format, "*\(search)*")
             fetchRequest.predicate = predicate
         }
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
         
         do{
             artists = try context.fetch(fetchRequest)
@@ -79,11 +81,16 @@ public class Artist: NSManagedObject {
         let fetchRequest :NSFetchRequest<Artist> = Artist.fetchRequest()
         
         
-        let format = "ANY albums.name == %@"
-        guard let albumName = album.name else{throw "fucked up" }
+        //let format = "ANY albums.name == %@"
+        //guard let albumName = album.name else{throw "fucked up" }
         
-        let predicate = NSPredicate(format: format, albumName)
+        //let predicate = NSPredicate(format: format, albumName)
+        //fetchRequest.predicate = predicate
+        
+        let predicate = NSPredicate(format: "album == %@", album)
         fetchRequest.predicate = predicate
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
         
         var artists = [Artist]()
         do{
@@ -108,6 +115,8 @@ public class Artist: NSManagedObject {
         
         let predicate = NSPredicate(format: format, albumMbid)
         fetchRequest.predicate = predicate
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
         
         var artists = [Artist]()
         do{

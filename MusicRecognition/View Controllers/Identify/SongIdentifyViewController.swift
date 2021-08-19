@@ -9,10 +9,13 @@ import UIKit
 
 class SongViewController: UIViewController {
 
+    
+    //TODO:Change from type AUDSong to Core Data Song
     var song:AudDSong!
     var response:AudDResponse!
     var acr:ACRMusic!
     var image:UIImage?
+    var newSong:Song!
     
     @IBOutlet weak var songName: UILabel!
     @IBOutlet weak var artistName: UILabel!

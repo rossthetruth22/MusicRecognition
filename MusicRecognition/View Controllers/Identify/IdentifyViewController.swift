@@ -188,27 +188,6 @@ class IdentifyViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("animation height")
-//        let height =  testAnimation.bounds.height
-//        let height2 = testAnimation.bounds.size.height
-//        UIView.animate(withDuration: 0.5) {
-//            self.testAnimation.bounds.size.height -= height/2
-//        } completion: { done in
-//            print(self.testAnimation.bounds.size.height)
-//            print(done)
-//
-        
-        
-        
-        
-//        UIView.animate(withDuration: 3.0, delay: 1.0, options: .curveLinear) {
-//            for num in 1...14{
-//                var notch = tring.sublayers?.filter($0.name == "\(num)")
-//            }
-//        } completion: { nice in
-//            print("lets see!")
-//        }
-
 
     }
     
@@ -402,7 +381,18 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
 //            }
 //        }
         //ACRCloud.identify(theLink)
-        ACRCloud.identify(theLink) { [weak self] sucess, result, pictureURL in
+        ACRCloud.identify(theLink) { [weak self] success, result, pictureURL in
+            
+            guard success == true else {
+                DispatchQueue.main.async {
+                    self?.vinylRecord.layer.removeAllAnimations()
+                    let noMatch = storyboard.instantiateViewController(identifier: "NoMatchController")
+                    self?.present(noMatch, animated: true, completion: nil)
+                    print("unable to identify")
+                }
+                return
+            }
+            
             if let url = pictureURL{
                 print(pictureURL)
                 

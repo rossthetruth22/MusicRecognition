@@ -72,15 +72,18 @@ class NetworkClient{
             print("status code is \(statusCode)")
 
             guard error == nil else {
+                print("error")
                 completionHandlerForPOST(nil, error)
                 return}
 
 
             guard let data = data else {
+                print(error)
                 completionHandlerForPOST(nil, error)
                 return
             }
             
+            print("completion")
             completionHandlerForPOST(data, nil)
 
 //            self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForPOST)
@@ -90,38 +93,6 @@ class NetworkClient{
                 print(result)
                 guard let format = result as? [String:Any] else {print("22")
                     return}
-                //print(format)
-                
-//                for (key,value) in format{
-//                    print(key)
-//                }
-//                if let result2 = format["result"] as? [String:Any]{
-//                    print("result222")
-//                    //print(result2)
-//                    for (key,value) in result2{
-//                        print(key)
-//                        if key == "musicbrainz"{
-//                            //print(value)
-//                            if let inside = value as? [[String:Any]]{
-//                                for ins in inside{
-//                                    
-//                                    for ins2 in ins{
-//                                        print("-\(ins2.key)")
-//                                        if let inside2 = ins2.value as? [[String:Any]]{
-//                                            for inq in inside2{
-//                                                for inq2 in inq{
-//                                                    print("--\(inq2.key)")
-//                                                }
-//                                                
-//                                            }
-//                                        }
-//                                    }
-//                                    //print(ins)
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
                 //print(result)
             }
         }
