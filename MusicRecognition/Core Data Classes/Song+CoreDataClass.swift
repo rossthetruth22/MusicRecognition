@@ -12,7 +12,7 @@ import CoreData
 @objc(Song)
 public class Song: NSManagedObject {
     
-    static func addSong(_ songToSave:AudDSong, context: NSManagedObjectContext){
+    static func addSong(_ songToSave:Song, context: NSManagedObjectContext){
         
         let song = Song(context: context)
         let musicBrainz = songToSave.musicbrainz

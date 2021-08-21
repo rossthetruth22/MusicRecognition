@@ -174,12 +174,13 @@ class Musicbrainz{
                 return recordingOne.score > recordingTwo.score
             })
             
-            if let realrecordings = recordings{
+            if let realrecordings = recordings, realrecordings.count > 0{
                 //nil here? Under pressure by logic
                 // UnderPressure remix by CPTime/Cole Parkinson
-                print(realrecordings)
+               
                 completionForRelease(realrecordings.first!, nil)
-                //no musicbrainz?
+                
+                //no musicbrainz recording?
             }else{
                 //some error
                 completionForRelease(nil,nil)

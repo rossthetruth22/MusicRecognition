@@ -13,7 +13,7 @@ class ACRCloud{
     
     private let apiToken = "e23d42f738edfc001032bef10c7f0104"
     
-    static func identify(_ file: URL, completionHandler: @escaping (_ success: Bool, _ response:ACRMusic?, _ picURL:String?) -> Void){
+    static func identify(_ file: URL, completionHandler: @escaping (_ success: Bool, _ response:Song?, _ picURL:String?) -> Void){
         
         let client = NetworkClient()
         let url = "https://identify-us-west-2.acrcloud.com/v1/identify"
@@ -107,10 +107,16 @@ class ACRCloud{
                 let trackName = firstMusic.title
                 
                 let musicBrainz = Musicbrainz()
+                let song = Song()
                 musicBrainz.getMusicBrainzReleaseACR(trackName, album: albumName, artist: artistName) { recording, error in
                     guard error == nil else{return}
                     
-                    guard let releases = sortRelease(recording?.releases, album: albumName) else {
+                    guard let recording = recording else{
+                        //handle no musicBrainz info
+                        return
+                    }
+                    
+                    guard let releases = sortRelease(recording.releases, album: albumName) else {
                         print("another problem")
                         return
                     }
