@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Album" representedClassName="Album" syncable="YES" codeGenerationType="category">
+        <attribute name="imageURL" optional="YES" attributeType="String"/>
         <attribute name="mbid" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="smallImageURL" optional="YES" attributeType="String"/>
         <relationship name="artist" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Artist" inverseName="albums" inverseEntity="Artist"/>
         <relationship name="songs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Song" inverseName="album" inverseEntity="Song"/>
     </entity>
@@ -15,14 +17,13 @@
     <entity name="Playlist" representedClassName="Playlist" syncable="YES" codeGenerationType="category">
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Playlist" inverseName="songs" inverseEntity="Playlist"/>
+        <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="playlist" inverseEntity="Song"/>
     </entity>
     <entity name="Song" representedClassName="Song" syncable="YES" codeGenerationType="category">
         <attribute name="albumName" optional="YES" attributeType="String"/>
         <attribute name="artistName" optional="YES" attributeType="String"/>
         <attribute name="duration" optional="YES" attributeType="String"/>
-        <attribute name="isrc" optional="YES" attributeType="String"/>
-        <attribute name="label" optional="YES" attributeType="String"/>
+        <attribute name="length" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lyrics" optional="YES" attributeType="String"/>
         <attribute name="mbid" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -30,12 +31,12 @@
         <attribute name="trackCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="songs" inverseEntity="Album"/>
         <relationship name="artist" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Artist" inverseName="songs" inverseEntity="Artist"/>
-        <relationship name="playlist" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="playlist" inverseEntity="Song"/>
+        <relationship name="playlist" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Playlist" inverseName="songs" inverseEntity="Playlist"/>
     </entity>
     <elements>
-        <element name="Album" positionX="11.08697509765625" positionY="82.93017578125" width="128" height="89"/>
+        <element name="Album" positionX="11.08697509765625" positionY="82.93017578125" width="128" height="119"/>
         <element name="Artist" positionX="279.836669921875" positionY="-33.08953857421875" width="128" height="89"/>
         <element name="Playlist" positionX="49.61907958984375" positionY="-204.5100708007812" width="128" height="74"/>
-        <element name="Song" positionX="-256.8627319335938" positionY="-178.7592315673828" width="128" height="224"/>
+        <element name="Song" positionX="-256.8627319335938" positionY="-178.7592315673828" width="128" height="209"/>
     </elements>
 </model>

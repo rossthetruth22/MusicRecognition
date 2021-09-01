@@ -17,6 +17,7 @@ class SongDetailViewController: UIViewController {
     @IBOutlet weak var songArtist: UILabel!
     @IBOutlet weak var songAlbum: UILabel!
     @IBOutlet weak var songDuration: UILabel!
+    var image:UIImage!
     
     
     override func viewDidLoad() {
@@ -26,7 +27,9 @@ class SongDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         let songViewModel = SongViewModel(song)
         songHeading.text = songViewModel.songHeading
-        //songAlbumCover.image = songViewModel.image
+    
+        //songAlbumCover.image = image
+        songAlbumCover.image = PictureFetch(songViewModel.imageURL).image
         songTitle.text = songViewModel.songName
         songArtist.text = songViewModel.artistName
         songAlbum.text = songViewModel.albumName

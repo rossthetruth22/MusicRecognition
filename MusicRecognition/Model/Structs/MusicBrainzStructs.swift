@@ -19,9 +19,10 @@ struct RealMusicbrainzRecording:Decodable{
     let title:String
     let disambiguation:String? = nil
     let artistCredit:[RealMusicbrainzArtistCredit?]?
-    let firstReleaseDate:String
-    let releases:[RealMusicbrainzRelease]
+    let firstReleaseDate:String?
+    let releases:[RealMusicbrainzRelease]?
     let isrcs:[String]? = nil
+    var length:Int? = 0
     
     enum CodingKeys:String,CodingKey{
         case id
@@ -30,6 +31,7 @@ struct RealMusicbrainzRecording:Decodable{
         case artistCredit = "artist-credit"
         case firstReleaseDate = "first-release-date"
         case releases
+        case length
     }
     
 }
@@ -84,4 +86,8 @@ struct RealMusicbrainzReleaseGroup:Decodable{
         case title
         case primaryType = "primary-type"
     }
+}
+
+struct RealMusicBrainzReleaseOnly:Decodable{
+    
 }

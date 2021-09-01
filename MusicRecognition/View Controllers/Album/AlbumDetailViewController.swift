@@ -18,6 +18,8 @@ class AlbumDetailViewController: UIViewController {
     var container:CatalogData!
     var album:Album!
     var songs:[Song]!
+    var image:UIImage!
+    weak var navigationDelegate:NavigationDelegate?
     
     
     override func viewDidLoad() {
@@ -26,12 +28,13 @@ class AlbumDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         guard container != nil else{return}
         getAlbumSongs()
+        print(songs.count)
         tableView.delegate = self
         tableView.dataSource = self
         let albumViewModel = AlbumViewModel(album)
         albumHeading.text = albumViewModel.albumHeading
-        //mainAlbumCover.image = albumViewModel.image
-        //backgroundAlbumCover.image = albumViewModel.image
+        mainAlbumCover.image = image
+        backgroundAlbumCover.image = image
     }
     
 
@@ -77,6 +80,16 @@ extension AlbumDetailViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85.0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let songDetailController = storyboard.instantiateViewController(withIdentifier: "SongDetailController") as? SongDetailViewController{
+            let currentSong = songs[indexPath.row]
+            songDetailController.song = currentSong
+            self.navigationDelegate?.pushViewController(songDetailController)
+            
+        }
     }
     
 }

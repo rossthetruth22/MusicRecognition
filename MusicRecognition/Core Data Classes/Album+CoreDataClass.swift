@@ -54,6 +54,47 @@ public class Album: NSManagedObject {
         return albums
     }
     
+    static func fetchAlbums(_ search:String? = nil, albumMbid:String?, context:NSManagedObjectContext) throws -> [Album]{
+        
+        var albums = [Album]()
+        
+        let fetchRequest :NSFetchRequest<Album> = Album.fetchRequest()
+        
+        var predicates = [NSPredicate]()
+        
+        if let albumMbid = albumMbid{
+            let format = "mbid MATCHES %@"
+            let predicate = NSPredicate(format: format, albumMbid)
+            predicates.append(predicate)
+        }
+        
+        if let search = search{
+            let format = "name LIKE[c] %@"
+            let predicate = NSPredicate(format: format, "*\(search)*")
+            predicates.append(predicate)
+            //fetchRequest.predicate = predicate
+            
+        }
+        
+        if predicates.count > 1{
+            fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        }else if predicates.count == 1{
+            fetchRequest.predicate = predicates.first!
+        }
+        
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
+        
+        do{
+            albums = try context.fetch(fetchRequest)
+        }catch{
+            print(error.localizedDescription)
+            throw error
+        }
+        return albums
+        
+    }
+    
     static func fetchAlbums(albumMbid:String, context: NSManagedObjectContext) throws ->[Album]{
         
         var albums = [Album]()
@@ -92,6 +133,22 @@ public class Album: NSManagedObject {
             //throw CoreDataError.couldNotFetch
         }
         return count
+    }
+    
+    static func fetchArtistAlbums(_ artist:Artist, context:NSManagedObjectContext) throws -> [Album]{
+            
+        let fetchRequest : NSFetchRequest<Album> = Album.fetchRequest()
+        let predicate = NSPredicate(format: "artist == %@", artist)
+        fetchRequest.predicate = predicate
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
+        var albums = [Album]()
+        do {
+            albums = try context.fetch(fetchRequest)
+        }catch{
+            
+        }
+        return albums
     }
 
 }

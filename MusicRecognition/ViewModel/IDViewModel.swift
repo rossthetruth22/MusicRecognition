@@ -9,22 +9,22 @@ import Foundation
 
 class IDViewModel{
     
-    private let song:ACRMusic
+    private let song:Song
     
-    init(_ song:ACRMusic){
+    init(_ song:Song){
         self.song = song
     }
     
-    var songName:String{
-        return song.title
+    var songName:String?{
+        return song.name
     }
     
-    var albumName:String{
-        return song.album.name
+    var albumName:String?{
+        return song.albumName
     }
     
-    var artistName:String{
-        return song.artists.first!.name
+    var artistName:String?{
+        return song.artistName
     }
     
 }

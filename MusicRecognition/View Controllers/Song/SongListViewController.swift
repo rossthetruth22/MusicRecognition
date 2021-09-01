@@ -14,6 +14,7 @@ class SongListViewController: UIViewController {
     
     var container:CatalogData!
     var songs = [Song]()
+    weak var navigationDelegate:NavigationDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,10 +57,16 @@ extension SongListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "SongListCell") as? SongListCell{
             let song = songs[indexPath.row]
-            //cell.albumName.text = song.albumName
-            //cell.artistName.text = song.artistName
-            //print(song.artistName)
-            cell.songName.text = song.name
+            
+            let songViewModel = SongViewModel(song)
+            let picFetch = PictureFetch(songViewModel.smallImageURL)
+            cell.songCoverPic.image = picFetch.image
+            cell.songName.text = songViewModel.songName
+            
+            if let new = songViewModel.artistName{
+                cell.artistName.text = new
+            }
+            
             return cell
         }
         return UITableViewCell()
@@ -71,6 +78,19 @@ extension SongListViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let songDetailController = storyboard.instantiateViewController(withIdentifier: "SongDetailController") as? SongDetailViewController{
+            let currentSong = songs[indexPath.row]
+            songDetailController.song = currentSong
+            let currentCell = tableView.cellForRow(at: indexPath) as! SongListCell
+            let currentImage = currentCell.songCoverPic.image
+            songDetailController.image = currentImage
+            self.navigationDelegate?.pushViewController(songDetailController)
+            
+        }
     }
     
 }

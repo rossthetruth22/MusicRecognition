@@ -9,9 +9,9 @@ import UIKit
 
 class SongDisplayCell: UITableViewCell {
 
-    weak var songTrackCount:UILabel!
-    weak var songName:UILabel!
-    weak var songArtist:UILabel!
+    @IBOutlet weak var songTrackCount:UILabel!
+    @IBOutlet weak var songName:UILabel!
+    @IBOutlet weak var songArtist:UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

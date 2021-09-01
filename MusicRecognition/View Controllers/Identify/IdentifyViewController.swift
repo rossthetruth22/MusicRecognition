@@ -18,23 +18,10 @@ class IdentifyViewController: UIViewController {
     weak var testAnimation:CALayer!
     @IBOutlet weak var vinylRecord: UIImageView!
     var vinylAnimator:UIViewPropertyAnimator!
-    weak var tring:CALayer!
+    weak var tring:MeterColumn!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let gradientLayer = CAGradientLayer()
-//        let green = UIColor(red: 181.0/255.0, green: 239.0/255.0, blue: 206.0/255.0, alpha: 1.0).cgColor
-//        let yellow = UIColor(red: 251.0/255.0, green: 235.0/255.0, blue: 165.0/255.0, alpha: 1.0).cgColor
-//        let red = UIColor(red: 248.0/255.0, green: 195.0/255.0, blue: 185.0/255.0, alpha: 1.0).cgColor
-//        let colors = [green,yellow,red]
-//        gradientLayer.colors = colors
-//        let locations: [NSNumber] = [0.0, 0.55, 1.0]
-//        gradientLayer.locations = locations
-//        gradientLayer.startPoint = CGPoint(x: 0.5, y: 1)
-//        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0)
-        //gradientLayer.frame = gradient.bounds
-        
         
         let space = CGFloat(4.0)
         let number = 8
@@ -97,7 +84,7 @@ class IdentifyViewController: UIViewController {
             
             if num == 4{
                 //tickNumber = 14
-                tring = layerMask
+                //tring = layerMask
             }
             var tickSpaceSoFar = CGFloat(0.0)
             for bi in 1...tickNumber{
@@ -127,15 +114,34 @@ class IdentifyViewController: UIViewController {
                 tickSpaceSoFar += space + tickHeight
             }
             
-            containerView.layer.addSublayer(gradientLayer)
+            if num == 4{
+                let rect = CGRect(x: x, y: containerView.bounds.maxY, width: width, height: -containerView.bounds.height)
+                
+                let newMeter = MeterColumn(20, rect)
+                newMeter.colors = newMeter.gray
+                //print(newMeter.bounds)
+                //newMeter.backgroundColor = UIColor.blue.cgColor
+                containerView.layer.addSublayer(newMeter)
+                tring = newMeter
+                
+                //containerView.layer.addSublayer(gradientLayer)
+                //gradientLayer.mask = layer
+            }else{
+                //print(gradientLayer.frame)
+                containerView.layer.addSublayer(gradientLayer)
+                gradientLayer.mask = layer
+                
+
+            }
+            //containerView.layer.addSublayer(gradientLayer)
             if num == 4{
 
-                containerView.layer.insertSublayer(layerMask, above: gradientLayer)
-                layerMask.backgroundColor = layerMask.superlayer?.superlayer?.backgroundColor
+                //containerView.layer.insertSublayer(layerMask, above: gradientLayer)
+                //layerMask.backgroundColor = layerMask.superlayer?.superlayer?.backgroundColor
             }
             //containerView.layer.insertSublayer(layerMask, above: gradientLayer)
             
-            gradientLayer.mask = layer
+            //gradientLayer.mask = layer
             spaceSoFar += (width + space)
             
             
@@ -189,6 +195,53 @@ class IdentifyViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        guard let newLayer = tring as? MeterColumn else {return}
+        
+        let ticks = newLayer.meterTick!
+        for tick in ticks{
+            tick.isHidden = true
+        }
+        
+        let seconds = 0.5
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            // Put your code which should be executed with a delay here
+            
+            let total = 0.7
+            let indiv = Double(total)/Double(ticks.count)
+            for (index,tick) in ticks.enumerated(){
+                //let currentAnimation = CAKeyframeAnimation(keyPath: "hidden")
+                let currentAnimation = CABasicAnimation(keyPath: "hidden")
+                let delay = indiv * Double(index)
+                currentAnimation.beginTime = CACurrentMediaTime() + delay
+                currentAnimation.duration = 0.035
+                currentAnimation.fromValue = true
+                currentAnimation.toValue = false
+                currentAnimation.fillMode = .forwards
+                //currentAnimation.isCumulative = true
+                //currentAnimation.autoreverses = true
+                
+                //currentAnimation.values = [true,false]
+                //currentAnimation.keyTimes = [0,0.5,1]
+                //currentAnimation.calculationMode = .discrete
+                
+        
+                currentAnimation.isRemovedOnCompletion = false
+                
+                tick.add(currentAnimation, forKey: nil)
+  
+            }
+        }
+        
+//        let test = URL(string: "http://coverartarchive.org/release/ed3997ee-0d66-429d-a7e3-455cea70e41b/22992272247-250.jpg")
+//
+//        let fileName = test!.lastPathComponent
+//        let fileManager = FileManager.default
+//
+//        let caches = try? fileManager.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//        var pictureDirectory = caches!.appendingPathComponent("Music Recognition").appendingPathComponent("Pictures")
+//        let currentPath = pictureDirectory.appendingPathComponent("\(fileName)")
+//        print(currentPath)
+        
     }
     
 
@@ -203,19 +256,13 @@ class IdentifyViewController: UIViewController {
     */
     
     @IBAction func handleVinylTap(_ sender: UITapGestureRecognizer) {
-        print("vinyl tapped")
-        
-        //tring.bounds.size.height /= 4
-//        print(self.tring.position)
-//        UIView.animate(withDuration: 10.0, delay: 0.5, options: [.curveLinear, .autoreverse]) { [self] in
-//                        self.tring.bounds.size.height -= 20
-//            //print(self.tring.position)
-//        } completion: { ross in
-//            print(ross)
+        //print("vinyl tapped")
+        //guard let newLayer = tring as? MeterColumn else {return}
+        //newLayer.colors = newLayer.rainbow
+//        for tick in ticks{
+//            tick.isHidden = true
 //        }
-
-
-        
+       
         
         //vinylAnimator = UIViewPropertyAnimator(duration: <#T##TimeInterval#>, curve: <#T##UIView.AnimationCurve#>, animations: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
         
@@ -225,7 +272,7 @@ class IdentifyViewController: UIViewController {
             sender.view?.transform = CGAffineTransform(rotationAngle: radians)
             //sender.view?.layer.transform = CATransform3DMakeRotation(radians, 0.0, 0.0, 1.0)
         } completion: { royce in
-            print(royce)
+            //print(royce)
             sender.view?.transform = .identity
         }
 
@@ -393,33 +440,62 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
                 return
             }
             
-            if let url = pictureURL{
-                print(pictureURL)
-                
-                var image = UIImage()
-                let newURLString = url.replacingOccurrences(of: "http:", with: "https:")
-                let callURL = URL(string: newURLString)!
-                DispatchQueue.global().async {
-                    var data:Data! = nil
-                    //var image = UIImage()
-                    do{
-                        data = try Data(contentsOf: callURL)
-                        image = UIImage(data: data)!
-                    }catch{
-                        print(error.localizedDescription)
-                    }
-
-                    DispatchQueue.main.async {
-                        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        //storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        self?.vinylRecord.layer.removeAllAnimations()
-                        let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
-                        songController.acr = result!
-                        songController.image = image
-                        self?.present(songController, animated: true, completion: nil)
-                    }
-                }
+            let picFetch = PictureFetch(pictureURL)
+            let image = picFetch.image
+            
+            DispatchQueue.main.async {
+                //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                //storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self?.vinylRecord.layer.removeAllAnimations()
+                let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
+                songController.songComponents = result!
+                songController.image = image
+                self?.present(songController, animated: true, completion: nil)
             }
+            
+//            var data:Data! = nil
+//            if let url = pictureURL{
+//                print(pictureURL)
+//                                
+//                var image = UIImage()
+//                let newURLString = url.replacingOccurrences(of: "http:", with: "https:")
+//                let callURL = URL(string: newURLString)!
+//                let fileName = callURL.lastPathComponent
+//                
+//                DispatchQueue.global().async {
+//                    var data:Data! = nil
+//                    //var image = UIImage()
+//                    do{
+//                        data = try Data(contentsOf: callURL)
+//                        image = UIImage(data: data)!
+//                        //store image in Library/Caches/Pictures/
+//
+//                    }catch{
+//                        print(error.localizedDescription)
+//                    }
+//
+//                    DispatchQueue.main.async {
+//                        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                        //storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                        self?.vinylRecord.layer.removeAllAnimations()
+//                        let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
+//                        songController.songComponents = result!
+//                        songController.image = image
+//                        self?.present(songController, animated: true, completion: nil)
+//                    }
+//                }
+//            }else{
+//                DispatchQueue.main.async {
+//                    //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                    //storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                    self?.vinylRecord.layer.removeAllAnimations()
+//                    let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
+//                    songController.songComponents = result!
+//                    //songController.image = image
+//                    self?.present(songController, animated: true, completion: nil)
+//                }
+//
+//            }
         }
         
 //        if flag{
@@ -439,4 +515,11 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
         }
     }
     
+}
+
+extension IdentifyViewController: CAAnimationDelegate{
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        //anim.
+        
+    }
 }

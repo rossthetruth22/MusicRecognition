@@ -12,8 +12,11 @@ import CoreData
 @objc(Playlist)
 public class Playlist: NSManagedObject {
     
-    static func addPlayList(){
+    static func addPlayList(_ name:String, context:NSManagedObjectContext){
         
+        let playlist = Playlist(context: context)
+        playlist.name = name
+        playlist.creationDate = Date()
     }
     
     static func getPlaylist(_ search:String? = nil, context:NSManagedObjectContext) throws -> [Playlist]{
@@ -38,6 +41,30 @@ public class Playlist: NSManagedObject {
         }
         
         return playlists
+        
+    }
+    
+    static func checkIfPlaylistExists(_ name:String, context:NSManagedObjectContext) -> Bool{
+        
+        let fetchRequest :NSFetchRequest<Playlist> = Playlist.fetchRequest()
+      
+        let format = "name MATCHES[c] %@"
+        let predicate = NSPredicate(format: format, "\(name)")
+        fetchRequest.predicate = predicate
+        
+        var count = 0
+        do{
+           count = try context.count(for: fetchRequest)
+        }catch{
+            let error = error as NSError
+            print(error.localizedDescription)
+            //throw CoreDataError.couldNotFetch
+        }
+        return count == 0 ? true : false
+        
+    }
+    
+    static func addPlaylistSongs(){
         
     }
 

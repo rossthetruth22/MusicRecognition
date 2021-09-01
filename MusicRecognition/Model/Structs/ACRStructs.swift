@@ -27,6 +27,7 @@ struct ACRMetadata:Decodable{
 struct ACRMusic:Decodable{
     let artists:[ACRArtist]
     let album:ACRAlbum
+    let externalIDs:ACRExternalID?
     let score:Int?
     let title:String
     let releaseDate:String?
@@ -39,6 +40,7 @@ struct ACRMusic:Decodable{
         case title
         case releaseDate = "release_date"
         case label
+        case externalIDs = "external_ids"
     }
 }
 
@@ -54,4 +56,9 @@ struct ACRStatus:Decodable{
     let msg:String
     let version:String
     let code:Int
+}
+
+struct ACRExternalID:Decodable{
+    let isrc:String?
+    let upc:String?
 }

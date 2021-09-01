@@ -1,19 +1,18 @@
 //
-//  PlaylistListCell.swift
+//  SongCell.swift
 //  MusicRecognition
 //
-//  Created by Royce Reynolds on 8/16/21.
+//  Created by Royce Reynolds on 8/27/21.
 //
 
 import UIKit
 
-class PlaylistListCell: UITableViewCell {
-
-    @IBOutlet weak var playlistLetter:UILabel!
-    @IBOutlet weak var playlistName:UILabel!
-    @IBOutlet weak var playlistSongCount:UILabel!
-    var color:UIColor!
+class SongCell: UITableViewCell {
     
+    @IBOutlet weak var songTrackCount:UILabel!
+    @IBOutlet weak var songName:UILabel!
+    @IBOutlet weak var songArtist:UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

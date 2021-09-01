@@ -7,14 +7,18 @@
 
 import UIKit
 
-class ListContainerViewController: UIViewController {
+class ListContainerViewController: UIViewController, NavigationDelegate {
+    
 
+    @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelContainer: LabelView!
     var songListController: SongListViewController! = nil
     var albumListController: AlbumListViewController! = nil
     var artistListController: ArtistListViewController! = nil
     var playlistListController: PlaylistListViewController! = nil
     var container:CatalogData!
+    
+    var addButton:UIBarButtonItem!
     
     var songControllerCenter:CGFloat!
     var albumControllerCenter:CGFloat!
@@ -58,11 +62,11 @@ class ListContainerViewController: UIViewController {
         artistListController.container = container
         playlistListController.container = container
         
+        songListController.navigationDelegate = self
+        albumListController.navigationDelegate = self
+        artistListController.navigationDelegate = self
+        playlistListController.navigationDelegate = self
         
-        
-        
-//        guard let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SongList") as? SongListViewController else {return}
-        //self.addChild(controller)
         
         self.addChild(songListController)
         self.addChild(albumListController)
@@ -114,8 +118,20 @@ class ListContainerViewController: UIViewController {
         currentController = songListController
 
         // Do any additional setup after loading the view.
+        
+        let barItems = navigationItem.rightBarButtonItems
+        addButton = barItems?.last
+        addButton?.isEnabled = false
+        addButton?.tintColor = UIColor.clear
+        addButton.target = self
+        addButton.action = #selector(addPlaylistTapped)
+        
     }
     
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        super.touchesBegan(touches, with: event)
+//        resignFirstResponder()
+//    }
 
     /*
     // MARK: - Navigation
@@ -126,6 +142,10 @@ class ListContainerViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func pushViewController(_ viewController: UIViewController) {
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
     
     private func addChildController(_ controller:UIViewController, _ title:String){
         
@@ -152,6 +172,7 @@ class ListContainerViewController: UIViewController {
         }
             
         switch sender.tag{
+        
         case 0:
             
             moveTo = fromCenter - songControllerCenter
@@ -165,6 +186,10 @@ class ListContainerViewController: UIViewController {
         case 3:
             moveTo = fromCenter - playlistControllerCenter
             currentController = playlistListController
+            
+//            addButton?.isEnabled = false
+//            addButton?.tintColor = UIColor.clear
+        
         default:
             moveTo = fromCenter - songControllerCenter
             currentController = songListController
@@ -177,12 +202,67 @@ class ListContainerViewController: UIViewController {
             self.artistListController.view.center.x += moveTo
             self.playlistListController.view.center.x += moveTo
             
-        } completion: { result in
+        } completion: { [weak self] result in
             if result{
-                print(result)
+                self?.labelTitle.text = sender.titleLabel?.text
+                
+                if let _ = self?.currentController as? PlaylistListViewController {
+                    self?.addButton?.isEnabled = true
+                    self?.addButton?.tintColor = UIColor.black
+                    
+                }else{
+                    self?.addButton?.isEnabled = false
+                    self?.addButton?.tintColor = UIColor.clear
+                }
             }
         }
-
-        print("button tapped")
     }
+    
+    @objc func addPlaylistTapped(){
+        //present an alert controller to get the name off the playlist
+        
+        let alertController = UIAlertController(title: "New Playlist", message: "Enter your playlist name", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+        
+        var textField:UITextField! = nil
+        let add = UIAlertAction(title: "Add", style: .default) { _ in
+            //Create New Playlist
+            self.createPlaylist(textField.text!)
+            
+        }
+        
+        alertController.addTextField { alertText in
+            textField = alertText
+            textField.delegate = self
+        }
+        alertController.addAction(add)
+        alertController.addAction(cancel)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func createPlaylist(_ name:String){
+        //check if playlist currently exists
+        if container.createPlaylist(name: name){
+            //push controller and then present screen
+            print("Yassssss")
+        }else{
+            //couldn't/didn't create playlist
+            print("Nope")
+        }
+    }
+    
+    
+}
+
+
+
+extension ListContainerViewController:UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+    
 }

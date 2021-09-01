@@ -20,10 +20,12 @@ class ArtistViewModel{
     }
     
     var artistSongCount:String?{
-        return "\(artist.songs?.count) Songs"
+        let songs = artist.songs?.count != 1 ? "Songs" : "Song"
+        return "\(artist.songs?.count ?? 0) \(songs)"
     }
     
     var artistAlbumCount:String?{
-        return "\(artist.albums?.count) Albums"
+        let albums = artist.albums?.count != 1 ? "Albums" : "Album"
+        return "\(artist.albums?.count ?? 0) \(albums)"
     }
 }

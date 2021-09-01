@@ -36,14 +36,26 @@ class SongViewModel{
     }
     
     var duration:String?{
-        return song.duration
+        let seconds = TimeInterval(song.length/1000)
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second]
+        formatter.unitsStyle = .positional
+        return formatter.string(from: seconds)
     }
     
-//    var image:UIImage?{
-//        //grab ui image
-//    }
+    var imageURL:String?{
+        //grab ui image
+        return song.album?.imageURL
+    }
+    
+    var smallImageURL:String?{
+        //grab ui image
+        return song.album?.smallImageURL
+    }
     
     var songHeading:String{
+        guard let songName = songName, let artistName = artistName else {return String()}
+        
         return "\(songName) By \(artistName)"
     }
 }

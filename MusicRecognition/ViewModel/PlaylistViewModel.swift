@@ -19,10 +19,11 @@ class PlaylistViewModel{
         return playlist.name
     }
     var playlistLetter:String?{
-        return "\(playlistName?.first)"
+        return "\(playlistName?.first ?? " ")"
     }
     
     var playlistSongCount:String{
-        return "\(playlist.songs?.count)"
+        let songs = playlist.songs?.count != 1 ? "Songs" : "Song"
+        return "\(playlist.songs?.count ?? 0) \(songs)"
     }
 }

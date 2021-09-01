@@ -86,10 +86,10 @@ class AudD{
                     musicBrainz.getMusicBrainzRelease(song) { recording, error in
                         guard error == nil else{return}
                         
-                        guard let mbid = recording?.releases.first?.releaseGroup.id else {
+                        guard let mbid = recording?.releases?.first?.releaseGroup.id else {
                             completionHandler(true, song, nil)
                             return}
-                        musicBrainz.getPictureURL(mbid) { picURL, error in
+                        musicBrainz.getPictureURL(mbid) { smallPicURL, picURL, error in
                             
                             guard error == nil else{return}
                             guard picURL != nil else{return}

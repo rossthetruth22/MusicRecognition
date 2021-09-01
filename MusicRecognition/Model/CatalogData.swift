@@ -21,15 +21,103 @@ class CatalogData:NSPersistentContainer{
     //private var currencies = [Currency]()
     static let shared = CatalogData(name: "MusicRecognition")
     
-    func createSong(song: AudDSong) throws -> Void{
+    func createSong(songComponents: SongComponents) throws -> Void{
         
         //check if song exists
-        if getSongCount(song.musicbrainz?.first?.id) >= 1{
+        if getSongCount(songComponents.song.name, mbid: songComponents.song.mbid) >= 1{
+            //throw some error
             return
         }
+//        if getSongCount(song.musicbrainz?.first?.id) >= 1{
+//            //throw some error
+//            return
+//        }
+        
+        let newAlbum = songComponents.album
+        let newSong = songComponents.song
+        newSong.timestamp = Date()
+        let newArtist = songComponents.artist
+        
+        //var album = Album(context: backgroundContext)
+        //var artist = Artist(context: backgroundContext)
+        //var album:Album! = nil
+        //var artist:Artist! = nil
+        
+        do{
+            print("trying to fetch an existing album for song \(newSong.name)")
+            //let albumsFetched = try Album.fetchAlbums(songToSave.album, context: context)
+            let albumsFetched = try Album.fetchAlbums(newAlbum.name, albumMbid: newAlbum.mbid, context: viewContext)
+            //let albumsFetched = try Album.fetchAlbums(albumMbid: (musicBrainz?.first!.releases.first!.id)!, context: context)
+            if albumsFetched.count >= 1{
+                let fetched = albumsFetched.first
+                guard let objectID = fetched?.objectID else {return}
+                let theAlbum =  try backgroundContext.existingObject(with: objectID) as! Album
+                newSong.album = theAlbum
+                newSong.albumName = theAlbum.name
+                backgroundContext.delete(newAlbum)
+                //album = theAlbum
+                print("album is \(theAlbum.name)")
+                
+                //if you get an album, just grab the artist from the album
+                newSong.artist = newSong.album?.artist
+                newSong.artistName = newSong.album?.artist?.name
+                backgroundContext.delete(newArtist)
+                //artist = album.artist!
+                //??
+                print("artist for album is \(newSong.artist?.name)")
+                
+
+            }else{
+                print("no album found with this name.")
+                //album = Album.addAlbum(songToSave, context: context)
+                
+                newSong.album = newAlbum
+                newSong.albumName = newAlbum.name
+                //album = newAlbum
+                
+                //album = Album.addAlbum(songToSave, context: context)
+                //check if existing artist
+                do{
+                    var artists = [Artist]()
+                    //artists = try Artist.getArtist(songToSave.artist, context: context)
+                    //artists = try Artist.getArtist(musicBrainz?.first?.artistCredit.first?.artist.id, context: context)
+                    artists = try Artist.getArtist(newArtist.name, artistMbid: newArtist.mbid, context: viewContext)
+                    if artists.count >= 1{
+                        let fetched = artists.first
+                        guard let objectID = fetched?.objectID else {return}
+                        let theArtist =  try backgroundContext.existingObject(with: objectID) as! Artist
+                        newSong.artist = theArtist
+                        newSong.album?.artist = theArtist
+                        newSong.artistName = theArtist.name
+                        backgroundContext.delete(newArtist)
+                        //artist = theArtist
+                        //artist = artists.first
+                    }else{
+                        //artist = Artist.addArtist(songToSave, context: context)
+                        //artist = Artist.addArtist(songToSave, context: context)
+                        newSong.artist = newArtist
+                        newSong.album?.artist = newArtist
+                        newSong.artistName = newArtist.name
+                        //artist = newArtist
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                }
+                
+                //album.artist = artist
+            }
+        }catch{
+            print("Problem with album fetch")
+        }
+        
+        //newSong.artist = artist
+        //newSong.album = album
+        
+        //newSong.albumName = album.name
+        //newSong.artistName = artist.name
         
         
-        Song.addSong(song, context: backgroundContext)
+        //Song.addSong(songComponents, context: backgroundContext)
         
         do {
             try saveContext(backgroundContext: backgroundContext)
@@ -41,6 +129,24 @@ class CatalogData:NSPersistentContainer{
         getSongCount()
         getArtistCount()
         getAlbumCount()
+
+    }
+    
+    func createPlaylist(name:String) -> Bool{
+        
+        if !Playlist.checkIfPlaylistExists(name, context: viewContext){
+            return false
+        }
+        
+        Playlist.addPlayList(name, context: backgroundContext)
+        do{
+            try saveContext(backgroundContext: backgroundContext)
+        }catch{
+            return false
+        }
+        
+        return true
+        
     }
     
 //    func createSong(response: AudDResponse) throws -> Void{
@@ -69,7 +175,7 @@ class CatalogData:NSPersistentContainer{
         
         var count = 0
         do{
-            count = try Song.getSongCounts(search, backgroundContext: backgroundContext)
+            count = try Song.getSongCounts(search, backgroundContext: viewContext)
         }catch{
             let error = error as NSError
             print(error.localizedDescription)
@@ -94,10 +200,11 @@ class CatalogData:NSPersistentContainer{
         
     }
     
-    func getSongCount(mbid:String) -> Int{
+    func getSongCount(_ search:String?, mbid:String?) -> Int{
         var count = 0
         do{
-            count = try Song.getSongCounts(mbid, backgroundContext: backgroundContext)
+            count = try Song.getSongCounts(search, songMbid: mbid, context: viewContext)
+            //count = try Song.getSongCounts(mbid, backgroundContext: backgroundContext)
         }catch{
             let error = error as NSError
             print(error.localizedDescription)
@@ -114,7 +221,7 @@ class CatalogData:NSPersistentContainer{
         var count = 0
         
         do{
-           count = try backgroundContext.count(for: fetchRequest)
+           count = try viewContext.count(for: fetchRequest)
         }catch{
             let error = error as NSError
             print(error.localizedDescription)
@@ -133,7 +240,7 @@ class CatalogData:NSPersistentContainer{
         var count = 0
         
         do{
-           count = try backgroundContext.count(for: fetchRequest)
+           count = try viewContext.count(for: fetchRequest)
         }catch{
             let error = error as NSError
             print(error.localizedDescription)
@@ -226,40 +333,41 @@ class CatalogData:NSPersistentContainer{
         return songs
     }
     
-    func createCurrencies(currencyDict: [String:[String:AnyObject]]) throws -> Void{
-        
-        do {
-           // checkEntityCountAndDelete(entity: Currency.self)
+    
+    func getAllAlbumsForArtist(_ artist:Artist) throws -> [Album] {
+        var albums = [Album]()
+        do{
+            albums = try Album.fetchArtistAlbums(artist, context: viewContext)
         }catch{
-            throw error
+            
         }
-        //checkEntityCountAndDelete(entity: Currency.self)
+        return albums
+    }
+    
+    func addSongsToPlaylist(_ songs:NSSet, _ playlist:Playlist){
         
-        for (_, currency) in currencyDict{
-            //Currency.addCurrency(currency, context: self.backgroundContext)
-        }
-        
-//        guard let currencies = Array(backgroundContext.insertedObjects) as? [Currency] else{
-//            print("unsuccessful")
-//            return
-//        }
-  
-//        do {
-//           try fetchCountries()
-//        }catch{
-//            throw error
-//        }
-        //fetchCountries()
-//        let countryDict = Country.createCountryDict(countries: countries)
-//        Currency.addFlag(countries: countryDict, currencies: currencies, context: backgroundContext)
-        
-        do {
-            try saveContext(backgroundContext: backgroundContext)
+        playlist.addToSongs(songs)
+        do{
+            try saveContext()
         }catch{
-            throw error
+            print(error.localizedDescription)
         }
-        //saveContext(backgroundContext: backgroundContext)
         
+    }
+    
+    func removeSongsFromFromPlaylist(_ songs:NSSet, _ playlist:Playlist){
+        playlist.removeFromSongs(songs)
+        do{
+            try saveContext()
+        }catch{
+            print(error.localizedDescription)
+        }
+    }
+    
+    func clearContext(){
+        if backgroundContext.hasChanges{
+            backgroundContext.rollback()
+        }
     }
     
 //    func fetchCurrencies(_ searchString: String? = nil) throws -> [Currency]{
@@ -293,43 +401,8 @@ class CatalogData:NSPersistentContainer{
 //        return current
 //
 //    }
+
     
-    func createCountries(countryDict: [String:[String:AnyObject]]) throws -> Void {
-        
-        do{
-            //try checkEntityCountAndDelete(entity: Country.self)
-        }catch{
-            throw error
-        }
-        
-        //checkEntityCountAndDelete(entity: Country.self)
-        for (_, country) in countryDict{
-            //Country.addCountry(country, context: self.backgroundContext)
-        }
-        
-        do {
-            try saveContext(backgroundContext: backgroundContext)
-        }catch{
-            throw error
-        }
-        
-        //Country.createCountryDict(countries: fetchCountries())
-    }
-    
-//    func fetchCountries() throws -> Void{
-//        let fetchRequest : NSFetchRequest<Country> = Country.fetchRequest()
-//        var countries = [Country]()
-//        do{
-//            countries = try backgroundContext.fetch(fetchRequest)
-//        }catch{
-//            //let error = error as NSError
-//            //print(error.localizedDescription)
-//            throw CoreDataError.couldNotFetch
-//
-//        }
-//        self.countries = countries
-//
-//    }
     
     func checkEntityCountAndDelete<T: NSManagedObject>(entity: T.Type) throws -> Void{
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
@@ -371,6 +444,7 @@ class CatalogData:NSPersistentContainer{
                 //let nserror = error as NSError
                 //throw CoreDataError.couldNotSave
                 //fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                print(error.localizedDescription)
             }
         }
     }
@@ -386,6 +460,7 @@ class CatalogData:NSPersistentContainer{
             fatalError("Failed to create model from file: \(modelURL)")
         }
         super.init(name: self.modelName, managedObjectModel: mom)
+        
         self.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -402,6 +477,7 @@ class CatalogData:NSPersistentContainer{
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
+        viewContext.automaticallyMergesChangesFromParent = true
     }
 
 

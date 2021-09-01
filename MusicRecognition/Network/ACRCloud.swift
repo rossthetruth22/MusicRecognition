@@ -13,7 +13,7 @@ class ACRCloud{
     
     private let apiToken = "e23d42f738edfc001032bef10c7f0104"
     
-    static func identify(_ file: URL, completionHandler: @escaping (_ success: Bool, _ response:Song?, _ picURL:String?) -> Void){
+    static func identify(_ file: URL, completionHandler: @escaping (_ success: Bool, _ response:SongComponents?, _ picURL:String?) -> Void){
         
         let client = NetworkClient()
         let url = "https://identify-us-west-2.acrcloud.com/v1/identify"
@@ -106,53 +106,25 @@ class ACRCloud{
                 let artistName = artistCollection!.name
                 let trackName = firstMusic.title
                 
+                let isrc = firstMusic.externalIDs?.isrc
+                
                 let musicBrainz = Musicbrainz()
-                let song = Song()
-                musicBrainz.getMusicBrainzReleaseACR(trackName, album: albumName, artist: artistName) { recording, error in
+                
+                musicBrainz.getMusicBrainzReleaseACR(trackName, album: albumName, artist: artistName, isrc: isrc ) { components, picURL, error in
                     guard error == nil else{return}
                     
-                    guard let recording = recording else{
-                        //handle no musicBrainz info
+                    guard picURL != nil else{
+                        completionHandler(true, components, nil)
                         return
                     }
                     
-                    guard let releases = sortRelease(recording.releases, album: albumName) else {
-                        print("another problem")
-                        return
-                    }
-                    for release in releases{
-                        print("/n")
-                        print(release)
-                        print("/n")
-                    }
-                    guard let mbid = releases.first?.releaseGroup.id else {
-                        //completionHandler(true, song, nil)
-                        return}
-                    musicBrainz.getPictureURL(mbid) { picURL, error in
-                        
-                        guard error == nil else{return}
-                        guard picURL != nil else{return}
-                        completionHandler(true,firstMusic,picURL!)
-                    }
+                    completionHandler(true, components, picURL!)
                 }
-                
-                
             }else{
                 completionHandler(false,nil,nil)
             }
-            
-            
         }
         
-        //old code
-//        client.methodForPOST(url, songFile, formData: callData) { (data, error) in
-//            guard (error == nil) else {print(error)
-//                return}
-//
-//            guard let data = data else {return}
-//
-//           print(data)
-//        }
     }
     
     private static func sortACRMusic(_ music:[ACRMusic]) -> [ACRMusic]{

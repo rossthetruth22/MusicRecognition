@@ -75,6 +75,46 @@ public class Artist: NSManagedObject {
         
     }
     
+    static func getArtist(_ search:String? = nil, artistMbid:String?, context:NSManagedObjectContext) throws -> [Artist]{
+        
+        var artists = [Artist]()
+        
+        let fetchRequest :NSFetchRequest<Artist> = Artist.fetchRequest()
+        
+        var predicates = [NSPredicate]()
+        
+        
+        if let artistMbid = artistMbid{
+            let format = "mbid MATCHES %@"
+            let predicate = NSPredicate(format: format, artistMbid)
+            predicates.append(predicate)
+        }
+        
+        if let search = search{
+            let format = "name LIKE[c] %@"
+            let predicate = NSPredicate(format: format, "*\(search)*")
+            predicates.append(predicate)
+        }
+
+        if predicates.count > 1{
+            fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        }else if predicates.count == 1{
+            fetchRequest.predicate = predicates.first!
+        }
+        
+        let sortDescriptors = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptors]
+        
+        do{
+            artists = try context.fetch(fetchRequest)
+        }catch{
+            print(error.localizedDescription)
+            throw error
+        }
+        
+        return artists
+    }
+    
     static func getArtistByAlbum(_ album:Album, context:NSManagedObjectContext) throws -> [Artist]{
         //var artists = [Artist]()
         

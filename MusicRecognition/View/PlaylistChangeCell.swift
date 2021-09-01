@@ -11,6 +11,8 @@ class PlaylistChangeCell: UITableViewCell {
 
     @IBOutlet weak var playlistSongArtistName: UILabel!
     @IBOutlet weak var playlistSongName: UILabel!
+    @IBOutlet weak var selectImage: RoundImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

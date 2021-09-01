@@ -15,7 +15,8 @@ class SongViewController: UIViewController {
     var response:AudDResponse!
     var acr:ACRMusic!
     var image:UIImage?
-    var newSong:Song!
+    var songComponents:SongComponents!
+    @IBOutlet weak var closeButton:UIButton!
     
     @IBOutlet weak var songName: UILabel!
     @IBOutlet weak var artistName: UILabel!
@@ -32,18 +33,25 @@ class SongViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isBeingDismissed{
+            CatalogData.shared.clearContext()
+        }
+    }
+    
     func configureScreen(){
         //let identifyViewModel = IdentifyViewModel(song)
 //        songName.text = identifyViewModel.songName
 //        artistName.text = identifyViewModel.artistName
 //        albumName.text = identifyViewModel.albumName
         
-        let idViewModel = IDViewModel(acr)
+        let idViewModel = IDViewModel(songComponents.song)
+//        let idViewModel = IDViewModel(acr)
         songName.text = idViewModel.songName
         artistName.text = idViewModel.artistName
         albumName.text = idViewModel.albumName
-        
-        
+           
         coverArt.image = image
     }
     
@@ -52,7 +60,7 @@ class SongViewController: UIViewController {
         
         do{
             //try CatalogData.shared.createSong(song: self.song)
-            try CatalogData.shared.createSong(song: self.song)
+            try CatalogData.shared.createSong(songComponents: songComponents)
         }catch{
             print(error.localizedDescription)
         }
@@ -60,6 +68,12 @@ class SongViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    
+    
+    @IBAction func closeTapped(_ sender: UIButton) {
+        
+        self.dismiss(animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 

@@ -24,8 +24,25 @@ class AlbumViewModel{
     }
     
     var albumHeading:String?{
+        guard let albumName = albumName, let albumArtist = albumArtist else {return String()}
         return "\(albumName) By \(albumArtist)"
     }
+    
+    var albumSongCount:String?{
+        let songs = album.songs?.count != 1 ? "Songs" : "Song"
+        return "\(album.songs?.count ?? 0) \(songs)"
+    }
+    
+    var imageURL:String?{
+        //grab ui image
+        return album.imageURL
+    }
+    var smallImageURL:String?{
+        //grab ui image
+        return album.smallImageURL
+    }
+    
+    
     
 //    var image:UIImage{
 //        

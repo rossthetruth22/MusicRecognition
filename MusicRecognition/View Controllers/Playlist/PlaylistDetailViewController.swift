@@ -14,16 +14,54 @@ class PlaylistDetailViewController: UIViewController {
     var container:CatalogData!
     var playlist:Playlist!
     var songs:[Song]!
+    var color:UIColor!
+    var firstTime:Bool?
+    var addButton:PlaylistChangeItem!
+    var trashButton:PlaylistChangeItem!
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var playlistName: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         guard container != nil else{return}
+        let playlistViewModel = PlaylistViewModel(playlist)
+        playlistName.text = playlistViewModel.playlistName
         getSongsForPlaylist()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(UINib(nibName: "OtherSongCell", bundle: nil), forCellReuseIdentifier: "OtherSongCell")
+        
+        let barItems = navigationItem.rightBarButtonItems
+        addButton = barItems?.first as? PlaylistChangeItem
+        addButton.target = self
+        addButton.bool = true
+        addButton.action = #selector(addSongsTapped(_:))
+        trashButton = barItems?.last as? PlaylistChangeItem
+        trashButton.target = self
+        trashButton.bool = false
+        trashButton.action = #selector(addSongsTapped(_:))
+        
+        titleLabel.textColor = color
     }
+    
+    @objc func addSongsTapped(_ sender:PlaylistChangeItem){
+        //present an alert controller to get the name off the playlist
+        
+        let bool = sender.bool
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "PlaylistChangeController") as! PlaylistChangeViewController
+        controller.container = container
+        controller.add = bool
+        controller.playlist = playlist
+        controller.oldSongs = songs
+        
+        present(controller, animated: true, completion: nil)
+    }
+
     
 
     /*
@@ -48,11 +86,14 @@ class PlaylistDetailViewController: UIViewController {
 
 extension PlaylistDetailViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print(songs.count)
         let songViewModel = SongViewModel(songs[indexPath.row])
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "SongListCell") as? SongDisplayCell{
-            cell.songArtist.text = songViewModel.artistName
-            //cell.songTrackCount.text = songViewModel.trackCount
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "OtherSongCell") as? OtherSongCell{
+            cell.songCoverPic.image = PictureFetch(songViewModel.smallImageURL).image
+            cell.artistName.text = songViewModel.artistName
             cell.songName.text = songViewModel.songName
+            cell.cellSpace.backgroundColor = color
+
             return cell
         }
         return UITableViewCell()
@@ -67,3 +108,5 @@ extension PlaylistDetailViewController: UITableViewDelegate, UITableViewDataSour
     }
     
 }
+
+
