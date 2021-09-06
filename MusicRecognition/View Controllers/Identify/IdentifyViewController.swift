@@ -14,7 +14,7 @@ class IdentifyViewController: UIViewController {
     var audioSession: AVAudioSession! = nil
     var recordSession: AVAudioRecorder! = nil
     @IBOutlet weak var gradient: UIView!
-    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var containerView: AudioMeterRack!
     weak var testAnimation:CALayer!
     @IBOutlet weak var vinylRecord: UIImageView!
     var vinylAnimator:UIViewPropertyAnimator!
@@ -23,157 +23,9 @@ class IdentifyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let space = CGFloat(4.0)
-        let number = 8
-        let numberOfBars = CGFloat(number)
-        let width = (containerView.bounds.width - (space * numberOfBars)) / numberOfBars
-        let sizeOfBars = CGSize(width: width, height: containerView.frame.height)
-        
-        //let layer = CALayer()
-        var spaceSoFar = CGFloat(2.0)
-        for num in 1...number{
-            
-            let gradientLayer = CAGradientLayer()
-            let green = UIColor(red: 181.0/255.0, green: 239.0/255.0, blue: 206.0/255.0, alpha: 1.0).cgColor
-            let yellow = UIColor(red: 251.0/255.0, green: 235.0/255.0, blue: 165.0/255.0, alpha: 1.0).cgColor
-            let red = UIColor(red: 248.0/255.0, green: 195.0/255.0, blue: 185.0/255.0, alpha: 1.0).cgColor
-            let colors = [green,yellow,red]
-            gradientLayer.colors = colors
-            let locations: [NSNumber] = [0.0, 0.55, 1.0]
-            gradientLayer.locations = locations
-            gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
-            gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-            
-            let x = containerView.bounds.minX + spaceSoFar
-            gradientLayer.frame = CGRect(x: x, y: containerView.bounds.maxY, width: width, height: -containerView.bounds.height)
-            let degrees = 180.0
-            let radians = CGFloat(degrees * Double.pi / 180)
-            gradientLayer.transform = CATransform3DMakeRotation(radians, 0.0, 0.0, 1.0)
-            let layer = CALayer()
-            layer.name = "\(num)"
-            let layerMask = CALayer()
-            //layer.frame = CGRect(x: x, y: containerView.bounds.minY, width: width, height: containerView.bounds.height)
-            layer.frame = gradientLayer.bounds
-            layerMask.frame = CGRect(x: x, y: containerView.bounds.minY, width: width, height: containerView.bounds.height)
-            let topCenter = CGPoint(x: layerMask.frame.midX, y: layerMask.frame.minY)
-            layerMask.anchorPoint = CGPoint(x: 0.5, y: 0)
-            layerMask.position = topCenter
-            
-            //layer.frame = CGRect(x: x, y: gradientLayer.bounds.maxY, width: width, height: -gradientLayer.bounds.height)
-            if num == 4{
-                //gradientLayer.frame = CGRect(x: x, y: containerView.bounds.minY/2, width: width, height: containerView.bounds.height/2)
-//                let degrees = 180.0
-//                let radians = CGFloat(degrees * Double.pi / 180)
-//                gradientLayer.transform = CATransform3DMakeRotation(radians, 0.0, 0.0, 1.0)
-                
-//                let make = CATransform3DMakeScale(CGFloat(1.0), 0.5, 0)
-//                layer.transform = make
-                //layer.mask = layerMask
-                //testAnimation = layerMask
-                //testAnimation.bounds.size.height /= 2
-                
-                
-            }
-            
-            
-            let tickSpace = CGFloat(3.0)
-            var tickNumber = 20
-            let tickNumberOfBars = CGFloat(tickNumber)
-            let tickWidth = layer.bounds.width - 2.0
-            let tickHeight = (gradientLayer.bounds.height - (tickSpace * tickNumberOfBars)) / tickNumberOfBars
-            
-            if num == 4{
-                //tickNumber = 14
-                //tring = layerMask
-            }
-            var tickSpaceSoFar = CGFloat(0.0)
-            for bi in 1...tickNumber{
-//                if num == 2{
-//                    if bi < tickNumber-5{
-//                        tickSpaceSoFar += space + tickHeight
-//                        continue
-//                    }
-//                }else if num == 6{
-//                    if bi < tickNumber-3{
-//                        tickSpaceSoFar += space + tickHeight
-//                        continue
-//                    }
-//                }
-                
-                let tickX = layer.bounds.minX
-                //print(layer.bounds.minY + tickSpaceSoFar)
-                let rect = CGRect(x: tickX, y: layer.bounds.minY + tickSpaceSoFar, width: tickWidth, height: tickHeight)
-                let tickLayer = CAShapeLayer()
-                tickLayer.path = CGPath(roundedRect: rect, cornerWidth: CGFloat(0.5), cornerHeight: CGFloat(0.5), transform: nil)
-                tickLayer.name = "\(bi)"
-                //tickLayer.backgroundColor = UIColor.blue.cgColor
-                if num == 4{
-                    //tickLayer.isHidden = true
-                }
-                layer.addSublayer(tickLayer)
-                tickSpaceSoFar += space + tickHeight
-            }
-            
-            if num == 4{
-                let rect = CGRect(x: x, y: containerView.bounds.maxY, width: width, height: -containerView.bounds.height)
-                
-                let newMeter = MeterColumn(20, rect)
-                newMeter.colors = newMeter.gray
-                //print(newMeter.bounds)
-                //newMeter.backgroundColor = UIColor.blue.cgColor
-                containerView.layer.addSublayer(newMeter)
-                tring = newMeter
-                
-                //containerView.layer.addSublayer(gradientLayer)
-                //gradientLayer.mask = layer
-            }else{
-                //print(gradientLayer.frame)
-                containerView.layer.addSublayer(gradientLayer)
-                gradientLayer.mask = layer
-                
+        containerView.createMeters(8)
+  
 
-            }
-            //containerView.layer.addSublayer(gradientLayer)
-            if num == 4{
-
-                //containerView.layer.insertSublayer(layerMask, above: gradientLayer)
-                //layerMask.backgroundColor = layerMask.superlayer?.superlayer?.backgroundColor
-            }
-            //containerView.layer.insertSublayer(layerMask, above: gradientLayer)
-            
-            //gradientLayer.mask = layer
-            spaceSoFar += (width + space)
-            
-            
-            
-            //let layer = CALayer()
-            //let x = containerView.bounds.minX + spaceSoFar
-            //layer.frame = CGRect(x: x, y: containerView.bounds.minY, width: width, height: containerView.bounds.height)
-            
-//            let tickSpace = CGFloat(3.0)
-//            let tickNumber = 20
-//            let tickNumberOfBars = CGFloat(tickNumber)
-//            let tickWidth = layer.bounds.width - 2.0
-//            let tickHeight = (layer.bounds.height - (tickSpace * tickNumberOfBars)) / tickNumberOfBars
-            
-//            var tickSpaceSoFar = CGFloat(0.0)
-//            for _ in 1...tickNumber{
-//                let tickX = layer.bounds.minX
-//                let rect = CGRect(x: tickX, y: layer.bounds.minY + tickSpaceSoFar, width: tickWidth, height: tickHeight)
-//                let tickLayer = CAShapeLayer()
-//                tickLayer.path = CGPath(roundedRect: rect, cornerWidth: CGFloat(0.5), cornerHeight: CGFloat(0.5), transform: nil)
-//                //tickLayer.backgroundColor = UIColor.blue.cgColor
-//                layer.addSublayer(tickLayer)
-//                tickSpaceSoFar += space + tickHeight
-//            }
-            //gradientLayer.frame = layer.bounds
-            //layer.addSublayer(gradientLayer)
-            //layer.backgroundColor = UIColor.red.cgColor
-            //containerView.layer.addSublayer(gradientLayer)
-            //spaceSoFar += (width + space)
-        }
-        
-        //gradient.layer.addSublayer(gradientLayer)
         audioSession = AVAudioSession.sharedInstance()
 
         do{
@@ -189,48 +41,32 @@ class IdentifyViewController: UIViewController {
         }catch{
             print("caught")
         }
+        
+        if #available(iOS 13.0, *) {
+            NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIScene.willDeactivateNotification, object: nil)
+        }else{
+            NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+        }
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        startMeterAnimations()
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+//            self.containerView.removeAnimations()
+//        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        containerView.removeAnimations()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        guard let newLayer = tring as? MeterColumn else {return}
-        
-        let ticks = newLayer.meterTick!
-        for tick in ticks{
-            tick.isHidden = true
-        }
-        
-        let seconds = 0.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            // Put your code which should be executed with a delay here
-            
-            let total = 0.7
-            let indiv = Double(total)/Double(ticks.count)
-            for (index,tick) in ticks.enumerated(){
-                //let currentAnimation = CAKeyframeAnimation(keyPath: "hidden")
-                let currentAnimation = CABasicAnimation(keyPath: "hidden")
-                let delay = indiv * Double(index)
-                currentAnimation.beginTime = CACurrentMediaTime() + delay
-                currentAnimation.duration = 0.035
-                currentAnimation.fromValue = true
-                currentAnimation.toValue = false
-                currentAnimation.fillMode = .forwards
-                //currentAnimation.isCumulative = true
-                //currentAnimation.autoreverses = true
-                
-                //currentAnimation.values = [true,false]
-                //currentAnimation.keyTimes = [0,0.5,1]
-                //currentAnimation.calculationMode = .discrete
-                
-        
-                currentAnimation.isRemovedOnCompletion = false
-                
-                tick.add(currentAnimation, forKey: nil)
-  
-            }
-        }
         
 //        let test = URL(string: "http://coverartarchive.org/release/ed3997ee-0d66-429d-a7e3-455cea70e41b/22992272247-250.jpg")
 //
@@ -254,18 +90,28 @@ class IdentifyViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+    @objc func willResignActive(){
+        containerView.removeAnimations()
+    }
+    
+    func startMeterAnimations(){
+        containerView.color = containerView.gray
+        containerView.addAnimations(0, 5, 15, 0.7)
+        containerView.addAnimations(1, 2, 19, 1.0)
+        containerView.addAnimations(2, 1, 8, 0.5)
+        containerView.addAnimations(3, 0, 20, 0.73)
+        containerView.addAnimations(4, 3, 10, 0.8)
+        containerView.addAnimations(5, 4, 12, 0.75)
+        containerView.addAnimations(6, 7, 16, 0.7)
+        containerView.addAnimations(7, 2, 14, 0.65)
+    }
     
     @IBAction func handleVinylTap(_ sender: UITapGestureRecognizer) {
-        //print("vinyl tapped")
-        //guard let newLayer = tring as? MeterColumn else {return}
-        //newLayer.colors = newLayer.rainbow
-//        for tick in ticks{
-//            tick.isHidden = true
-//        }
-       
         
         //vinylAnimator = UIViewPropertyAnimator(duration: <#T##TimeInterval#>, curve: <#T##UIView.AnimationCurve#>, animations: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
         
+        containerView.color = containerView.rainbow
         UIView.animate(withDuration: 1.8, delay: 0.0, options: [.curveLinear,.repeat]) {
             let degrees = 180.0
             let radians = CGFloat(degrees * Double.pi / 180)
@@ -430,10 +276,15 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
         //ACRCloud.identify(theLink)
         ACRCloud.identify(theLink) { [weak self] success, result, pictureURL in
             
+            let dismissClosure:() -> Void = {
+                self?.startMeterAnimations()
+            }
             guard success == true else {
                 DispatchQueue.main.async {
+                    self?.containerView.removeAnimations()
                     self?.vinylRecord.layer.removeAllAnimations()
-                    let noMatch = storyboard.instantiateViewController(identifier: "NoMatchController")
+                    let noMatch = storyboard.instantiateViewController(identifier: "NoMatchController") as! NoMatchViewController
+                    noMatch.dismissClosure = dismissClosure
                     self?.present(noMatch, animated: true, completion: nil)
                     print("unable to identify")
                 }
@@ -446,10 +297,12 @@ extension IdentifyViewController: AVAudioRecorderDelegate{
             DispatchQueue.main.async {
                 //let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 //storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self?.containerView.removeAnimations()
                 self?.vinylRecord.layer.removeAllAnimations()
                 let songController = storyboard.instantiateViewController(identifier: "SongViewController") as! SongViewController
                 songController.songComponents = result!
                 songController.image = image
+                songController.dismissClosure = dismissClosure
                 self?.present(songController, animated: true, completion: nil)
             }
             

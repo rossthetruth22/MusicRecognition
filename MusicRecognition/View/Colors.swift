@@ -19,7 +19,7 @@ extension UIColor{
     }
     
     open class var pastelPurple:UIColor{
-        return UIColor(red: 210.0/255.0, green: 128.0/255.0, blue: 222.0/255.0, alpha: 1.0)
+        return UIColor(red: 221.0/255.0, green: 198.0/255.0, blue: 231.0/255.0, alpha: 1.0)
     }
     
     open class var pastelYellow:UIColor{
@@ -28,7 +28,7 @@ extension UIColor{
     }
     
     open class var pastelOrange:UIColor{
-        return UIColor(red: 255.0/255.0, green: 152.0/255.0, blue: 97.0/255.0, alpha: 1.0)
+        return UIColor(red: 240.0/255.0, green: 195.0/255.0, blue: 163.0/255.0, alpha: 1.0)
     }
     
     open class var lightPastelGreen:UIColor{

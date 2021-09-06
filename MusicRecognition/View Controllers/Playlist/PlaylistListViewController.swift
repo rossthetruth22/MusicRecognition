@@ -71,7 +71,7 @@ class PlaylistListViewController: UIViewController {
         case 1:
             return .lightPastelGreen
         case 2:
-            return .pastelYellow
+            return .lightPastelYellow
         case 3:
             return .pastelOrange
         case 4:

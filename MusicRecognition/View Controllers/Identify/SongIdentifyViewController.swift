@@ -16,6 +16,7 @@ class SongViewController: UIViewController {
     var acr:ACRMusic!
     var image:UIImage?
     var songComponents:SongComponents!
+    var dismissClosure: (()->Void)?
     @IBOutlet weak var closeButton:UIButton!
     
     @IBOutlet weak var songName: UILabel!
@@ -38,6 +39,7 @@ class SongViewController: UIViewController {
         if isBeingDismissed{
             CatalogData.shared.clearContext()
         }
+        dismissClosure?()
     }
     
     func configureScreen(){

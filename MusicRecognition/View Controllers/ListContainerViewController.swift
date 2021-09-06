@@ -26,6 +26,7 @@ class ListContainerViewController: UIViewController, NavigationDelegate {
     var playlistControllerCenter:CGFloat!
     var currentTab = 0
     var currentController:UIViewController!
+    var panTranslation = CGFloat(0.0)
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -126,6 +127,10 @@ class ListContainerViewController: UIViewController, NavigationDelegate {
         addButton.target = self
         addButton.action = #selector(addPlaylistTapped)
         
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        view.addGestureRecognizer(pan)
+        print(view.bounds.width)
+        
     }
     
 //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -149,6 +154,37 @@ class ListContainerViewController: UIViewController, NavigationDelegate {
     
     private func addChildController(_ controller:UIViewController, _ title:String){
         
+    }
+    
+    @objc func handlePan(_ gesture:UIPanGestureRecognizer){
+        
+        switch gesture.state{
+        
+        case .began:
+            panTranslation = CGFloat(0.0)
+        case .changed:
+            let currentTranslation = gesture.translation(in: gesture.view).x
+            let difference = currentTranslation - panTranslation
+            panTranslation = currentTranslation
+            animateScreens(difference, abs(Double(currentTranslation)/200.0))
+            
+        case .cancelled, .ended:
+            let currentTranslation = gesture.translation(in: gesture.view).x
+            var panBound:CGFloat = 200.0
+            if (currentController == songListController && currentTranslation > 0.0) || (currentController == playlistListController && currentTranslation < 0.0){
+                panBound = 1000.0
+            }
+            let progress = abs(currentTranslation/panBound)
+            
+            if progress < 0.55{
+                revertPanAnimation()
+            }else{
+                completePanAnimation()
+            }
+        default:
+            break
+        }
+
     }
     
 
@@ -216,6 +252,109 @@ class ListContainerViewController: UIViewController, NavigationDelegate {
                 }
             }
         }
+    }
+    
+    private func revertPanAnimation(){
+        
+        let fromCenter = view.center.x
+        let distanceToMove = fromCenter - currentController.view.center.x
+        
+        UIView.animate(withDuration: 0.35, delay: 0.0, options: .curveEaseOut) {
+            self.songListController.view.center.x += distanceToMove
+            self.albumListController.view.center.x += distanceToMove
+            self.artistListController.view.center.x += distanceToMove
+            self.playlistListController.view.center.x += distanceToMove
+        } completion: { _ in
+            //print("done")
+        }
+        
+    }
+    private func animateScreens(_ distance:CGFloat, _ percent:Double){
+        
+        var moveTo = CGFloat()
+        var panMultiplier:CGFloat = 0.75
+        if currentController == songListController || currentController == playlistListController{
+            
+            var percentPastCenter:CGFloat = 0.0
+            let currentCenter = currentController.view.center.x
+            let percentOfView = currentCenter/view.bounds.width
+            if currentController == songListController{
+                percentPastCenter = percentOfView-0.5
+            }else{
+                percentPastCenter = 0.5-percentOfView
+            }
+            
+            if percentPastCenter >= 0.0{
+                panMultiplier = 0.25
+            }
+        }
+        
+        let viewFraction = view.bounds.width * panMultiplier
+        let multiplier = viewFraction/200.0
+        moveTo = distance
+        let distanceToMove = moveTo * multiplier
+        
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn, animations: {
+            self.songListController.view.center.x += distanceToMove
+            self.albumListController.view.center.x += distanceToMove
+            self.artistListController.view.center.x += distanceToMove
+            self.playlistListController.view.center.x += distanceToMove
+        }, completion: nil)
+        
+    }
+    
+    private func completePanAnimation(){
+        
+        let screenCenter = view.center.x
+        var newController:UIViewController! = nil
+        let currentControllerCenter = currentController.view.center.x
+        let isPannedLeft = currentControllerCenter < screenCenter ? true : false
+        let finalPosition = isPannedLeft ? screenCenter - view.bounds.width : screenCenter + view.bounds.width
+        let distanceToMove = finalPosition - currentControllerCenter
+        
+        //if current current is > center then you're swiping right and need to complete moving
+        let standard = 0.3
+        
+        switch currentController{
+        case songListController:
+            newController = isPannedLeft ? albumListController : songListController
+        case albumListController:
+            newController = isPannedLeft ? artistListController : songListController
+        case artistListController:
+            newController = isPannedLeft ? playlistListController : albumListController
+        case playlistListController:
+            newController = isPannedLeft ? playlistListController : artistListController
+        default:
+            newController = songListController
+        }
+        
+        var labelName = String()
+        switch newController{
+        case songListController:
+            labelName = "Songs"
+        case albumListController:
+            labelName = "Albums"
+        case artistListController:
+            labelName = "Artists"
+        case playlistListController:
+            labelName = "Playlists"
+        default:
+            labelName = "Songs"
+        }
+        
+        
+        
+        UIView.animate(withDuration: standard, delay: 0.0, options: .curveEaseOut) {
+            self.songListController.view.center.x += distanceToMove
+            self.albumListController.view.center.x += distanceToMove
+            self.artistListController.view.center.x += distanceToMove
+            self.playlistListController.view.center.x += distanceToMove
+        } completion: { _ in
+            self.currentController = newController
+            self.labelTitle.text = labelName
+        }
+
+        
     }
     
     @objc func addPlaylistTapped(){

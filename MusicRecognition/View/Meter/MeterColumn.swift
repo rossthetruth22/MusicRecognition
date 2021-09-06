@@ -10,9 +10,27 @@ import UIKit
 class MeterColumn: CAGradientLayer {
     
     private var numberOfTicks:Int!
-    var meterTick:[CALayer]!
+    var meterTicks:[CALayer]!
     private var tickMask:CALayer!
     
+    var animationParameters:AnimationParameters!
+    
+    var color:[CGColor]!{
+        didSet{
+            if self.colors != nil{
+                let animation = CABasicAnimation(keyPath: "colors")
+                animation.fromValue = self.colors
+                animation.toValue = color
+                animation.duration = 0.5
+                animation.fillMode = .forwards
+                animation.beginTime = CACurrentMediaTime()
+                animation.isRemovedOnCompletion = true
+                animation.delegate = self
+                animation.setValue(self, forKey: "remove")
+                self.add(animation, forKey: nil)
+            }
+        }
+    }
     
     var rainbow:[CGColor]{
         let green = UIColor(red: 181.0/255.0, green: 239.0/255.0, blue: 206.0/255.0, alpha: 1.0).cgColor
@@ -31,13 +49,18 @@ class MeterColumn: CAGradientLayer {
         return colors
     }
     
-    init(_ ticks:Int, _ frame:CGRect){
+    override init(layer: Any) {
+        super.init(layer: layer)
+    }
+    
+    init(_ ticks:Int, _ frame:CGRect, _ color:[CGColor]){
         super.init()
         self.frame = frame
         self.numberOfTicks = ticks
+        self.color = color
         createGradientLayer()
         rotateGradient()
-        meterTick = [CALayer]()
+        meterTicks = [CALayer]()
         self.tickMask = createTickLayerMask()
         self.mask = tickMask
         
@@ -57,7 +80,7 @@ class MeterColumn: CAGradientLayer {
     
     private func createGradientLayer(){
 
-        self.colors = rainbow
+        self.colors = color
         let locations: [NSNumber] = [0.0, 0.55, 1.0]
         self.locations = locations
         self.startPoint = CGPoint(x: 0.5, y: 0)
@@ -80,7 +103,7 @@ class MeterColumn: CAGradientLayer {
         let tickNumberOfBars = CGFloat(numberOfTicks)
         let tickWidth = layer.bounds.width - 2.0
         let tickHeight = (self.bounds.height - (tickSpace * tickNumberOfBars)) / tickNumberOfBars
-        let space = CGFloat(4.0)
+        let space = CGFloat(3.0)
         
         var tickSpaceSoFar = CGFloat(0.0)
         
@@ -95,7 +118,7 @@ class MeterColumn: CAGradientLayer {
           
             
             layer.addSublayer(tickLayer)
-            meterTick.append(tickLayer)
+            meterTicks.append(tickLayer)
             tickSpaceSoFar += space + tickHeight
         }
         
@@ -104,4 +127,12 @@ class MeterColumn: CAGradientLayer {
     }
     
 
+}
+
+extension MeterColumn:CAAnimationDelegate{
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+
+        self.removeAllAnimations()
+        self.colors = color 
+    }
 }
