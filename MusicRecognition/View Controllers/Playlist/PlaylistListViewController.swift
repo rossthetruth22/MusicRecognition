@@ -22,7 +22,7 @@ class PlaylistListViewController: UIViewController {
         // Do any additional setup after loading the view.
         guard container != nil else{return}
         getPlaylists()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleChanges(notification: )), name: .NSManagedObjectContextDidSave, object: container.backgroundContext)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleChanges(notification: )), name: .NSManagedObjectContextDidSave, object: container.viewContext)
         //print(playlists.count)
         tableView.delegate = self
         tableView.dataSource = self

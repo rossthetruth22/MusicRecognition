@@ -30,6 +30,9 @@ class PlaylistDetailViewController: UIViewController {
         let playlistViewModel = PlaylistViewModel(playlist)
         playlistName.text = playlistViewModel.playlistName
         getSongsForPlaylist()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleChanges(notification: )), name: .NSManagedObjectContextDidSave, object: container.viewContext)
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "OtherSongCell", bundle: nil), forCellReuseIdentifier: "OtherSongCell")
@@ -86,7 +89,6 @@ class PlaylistDetailViewController: UIViewController {
 
 extension PlaylistDetailViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(songs.count)
         let songViewModel = SongViewModel(songs[indexPath.row])
         if let cell = tableView.dequeueReusableCell(withIdentifier: "OtherSongCell") as? OtherSongCell{
             cell.songCoverPic.image = PictureFetch(songViewModel.smallImageURL).image
@@ -107,6 +109,14 @@ extension PlaylistDetailViewController: UITableViewDelegate, UITableViewDataSour
         return 85.0
     }
     
+}
+
+extension PlaylistDetailViewController: ContextDelegate{
+    
+    @objc func handleChanges(notification: NSNotification) {
+        getSongsForPlaylist()
+        tableView.reloadData()
+    }
 }
 
 

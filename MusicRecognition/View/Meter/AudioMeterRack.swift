@@ -65,7 +65,6 @@ class AudioMeterRack: UIView {
             meters.append(meter)
             
             spaceSoFar += (width + space)
-              
         }
     }
     
@@ -143,7 +142,8 @@ class AudioMeterRack: UIView {
             parameters?.shouldRepeat = false
 //            let meterTicks = meters[meterColumn].meterTicks!
 //            for tickIndex in 0..<meterTicks.count{
-//                let layer = meterTicks[tickIndex] as
+//                let layer = meterTicks[tickIndex]
+//                layer.isHidden = false
 //                //layer.removeAllAnimations()
 //            }
         }
@@ -154,7 +154,7 @@ class AudioMeterRack: UIView {
 extension AudioMeterRack:CAAnimationDelegate{
     
     func animationDidStart(_ anim: CAAnimation) {
-        guard let layer = anim.value(forKey: "hide") as? CALayer else{
+        guard let _ = anim.value(forKey: "hide") as? CALayer else{
             print("unable to find tick start in delegate")
             return
         }
